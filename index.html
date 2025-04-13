@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCare | AI-Powered Mental Health Platform</title>
+    <style>
+        /* Modern Gradient Color Palette */
+        :root {
+            --primary: #6C5CE7;
+            --primary-dark: #5649C2;
+            --secondary: #F8F9FA;
+            --accent: #00CEC9;
+            --accent-dark: #00B4B0;
+            --success: #00B894;
+            --warning: #FDCB6E;
+            --danger: #E17055;
+            --dark: #2D3436;
+            --light: #FFFFFF;
+            --text: #636E72;
+            --text-light: #B2BEC3;
+
+            --gradient-primary: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
+            --gradient-accent: linear-gradient(135deg, #00CEC9 0%, #55EFC4 100%);
+            --gradient-warning: linear-gradient(135deg, #FDCB6E 0%, #FFEAA7 100%);
+            --gradient-card: linear-gradient(to bottom right, #FFFFFF, #F8F9FA);
+            --gradient-dark: linear-gradient(135deg, #2D3436 0%, #636E72 100%);
+            --gradient-success: linear-gradient(135deg, #00B894 0%, #00D1A0 100%);
+            --gradient-danger: linear-gradient(135deg, #E17055 0%, #FF7675 100%);
+            --gradient-purple: linear-gradient(135deg, #6C5CE7 0%, #7B6CF6 100%);
+            --gradient-blue: linear-gradient(135deg, #74B9FF 0%, #0984E3 100%);
+            --gradient-orange: linear-gradient(135deg, #FDB777 0%, #F6784C 100%);
+            --gradient-frost: linear-gradient(135deg, #DFE6E9 0%, #B2BEC3 100%);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Glass Morphism Side Navigation */
+        .side-nav {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            height: 100vh;
+            position: fixed;
+            padding: 1.5rem;
+            box-shadow: 0 4px 30px rgba(108, 92, 231, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            left: -280px;
+            /* Changed from transform to left */
+        }
+
+        .side-nav.collapsed {
+            left: -280px;
+        }
+
+        .side-nav.active {
+            left: 0;
+            /* Changed from transform to left */
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.1);
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            margin-right: 12px;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            background: rgba(248, 249, 250, 0.7);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(108, 92, 231, 0.1);
+        }
+
+        .user-profile:hover {
+            background: rgba(108, 92, 231, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.1);
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+            border: 2px solid rgba(108, 92, 231, 0.2);
+        }
+
+        .user-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .user-info p {
+            font-size: 0.75rem;
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-content.expanded {
+            margin-left: 280px;
+        }
+
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        .main-content.shifted {
+            margin-left: 280px;
+        }
+
+        @media (max-width: 992px) {
+            .main-content.expanded {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content.shifted {
+                margin-left: 0;
+            }
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .top-nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .top-nav-links li {
+            margin-left: 2rem;
+        }
+
+        .top-nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .top-nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .top-nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+        }
+
+        .auth-buttons .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            margin-right: 0.75rem;
+        }
+
+        .btn-login:hover {
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .btn-signup {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Dashboard Content */
+        .content-wrapper {
+            padding: 2rem;
+        }
+
+        /* Animated Gradient Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(-45deg, #6C5CE7, #A29BFE, #00CEC9, #55EFC4);
+            background-size: 400% 400%;
+            animation: gradient 12s ease infinite;
+            color: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+        }
+
+        .welcome-banner h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .welcome-banner p {
+            opacity: 0.9;
+            max-width: 600px;
+            font-size: 1.05rem;
+        }
+
+        /* Floating Icons Animation */
+        .floating-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-icon {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 15s infinite linear;
+            color: white;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+            }
+        }
+
+        /* Dashboard Stats Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px) rotateX(3deg) rotateY(3deg);
+            box-shadow:
+                20px 20px 60px rgba(0, 0, 0, 0.05),
+                -20px -20px 60px rgba(255, 255, 255, 0.8);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-primary {
+            background: var(--gradient-primary);
+        }
+
+        .icon-accent {
+            background: var(--gradient-accent);
+        }
+
+        .icon-success {
+            background: linear-gradient(135deg, #00B894 0%, #55EFC4 100%);
+        }
+
+        .icon-warning {
+            background: var(--gradient-warning);
+        }
+
+        .card-value {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var (--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            font-size: 0.85rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        /* Assessment Section */
+        .assessment-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+        }
+
+        .btn-view-all {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .btn-view-all i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-view-all:hover i {
+            transform: translateX(3px);
+        }
+
+        .assessment-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .assessment-card {
+            background: var(--light);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .assessment-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .assessment-image {
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .assessment-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .assessment-card:hover .assessment-image img {
+            transform: scale(1.1);
+        }
+
+        .assessment-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 206, 201, 0.3);
+        }
+
+        .assessment-content {
+            padding: 1.5rem;
+        }
+
+        .assessment-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .assessment-description {
+            font-size: 0.9rem;
+            color: var (--text);
+            margin-bottom: 1.25rem;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .btn-start {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-start:hover {
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-start i {
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-start:hover i {
+            transform: translateX(3px);
+        }
+
+        .btn-start::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.1);
+            transform-origin: 0 0;
+            transform: rotate(45deg) translate(-50%, -50%);
+            transition: all 0.3s ease-out;
+            z-index: 0;
+        }
+
+        .btn-start:hover::before {
+            width: 0;
+        }
+
+        /* Blog Section */
+        .blog-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .blog-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .blog-card {
+            background: var(--light);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .blog-card:hover .blog-image img {
+            transform: scale(1.1);
+        }
+
+        .blog-category {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--gradient-warning);
+            color: var(--dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(253, 203, 110, 0.3);
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+            opacity: 0.8;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .blog-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .blog-author img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            object-fit: cover;
+        }
+
+        /* Online Consultation */
+        .consultation-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .consultation-content {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(0, 206, 201, 0.08) 0%, rgba(85, 239, 196, 0.08) 100%);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .consultation-content::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 206, 201, 0.05);
+            border-radius: 50%;
+        }
+
+        .consultation-text {
+            flex: 1;
+            padding-right: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .consultation-text h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .consultation-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 500px;
+        }
+
+        .btn-consult {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 206, 201, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-consult:hover {
+            box-shadow: 0 6px 20px rgba(0, 206, 201, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-consult i {
+            margin-left: 0.5rem;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-consult:hover i {
+            transform: translateX(3px);
+        }
+
+        .btn-consult::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.1);
+            transform-origin: 0 0;
+            transform: rotate(45deg) translate(-50%, -50%);
+            transition: all 0.3s ease-out;
+            z-index: 0;
+        }
+
+        .btn-consult:hover::before {
+            width: 0;
+        }
+
+        .consultation-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .consultation-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease;
+        }
+
+        .consultation-image:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 5rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.9rem;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-column ul li a i {
+            margin-right: 0.7rem;
+            font-size: 0.9rem;
+            width: 18px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 206, 201, 0.3);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .side-nav {
+                width: 240px;
+            }
+
+            .main-content {
+                margin-left: 240px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .side-nav {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 1000;
+            }
+
+            .side-nav.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .consultation-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .consultation-text {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+
+            .consultation-text p {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav-links {
+                display: none;
+            }
+
+            .auth-buttons {
+                margin-left: auto;
+            }
+
+            .welcome-banner h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .consultation-text h3 {
+                font-size: 1.4rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-wrapper {
+                padding: 1.5rem;
+            }
+
+            .welcome-banner {
+                padding: 1.8rem;
+            }
+
+            .welcome-banner h1 {
+                font-size: 1.5rem;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .assessment-cards,
+            .blog-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .consultation-text h3 {
+                font-size: 1.3rem;
+            }
+
+            .btn-consult {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Updated Sidebar Toggle Button */
+        .sidebar-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Advanced Animations and Effects */
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        .shimmer-effect {
+            animation: shimmer 2s infinite linear;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+            background-size: 1000px 100%;
+        }
+
+        /* Advanced Card Hover Effects */
+        .dashboard-card,
+        .assessment-card,
+        .blog-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px) rotateX(3deg) rotateY(3deg);
+            box-shadow:
+                20px 20px 60px rgba(0, 0, 0, 0.05),
+                -20px -20px 60px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Animated Gradient Text */
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 50%, var(--primary) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-text 3s linear infinite;
+        }
+
+        @keyframes gradient-text {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        /* Advanced Button Effects */
+        .btn-start,
+        .btn-consult {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-start::before,
+        .btn-consult::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.1);
+            transform-origin: 0 0;
+            transform: rotate(45deg) translate(-50%, -50%);
+            transition: all 0.3s ease-out;
+            z-index: 0;
+        }
+
+        .btn-start:hover::before,
+        .btn-consult:hover::before {
+            width: 0;
+        }
+
+        /* Glass Morphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Floating Animation */
+        @keyframes floating {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .float-element {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        /* Advanced Input Styles */
+        .input-field input:focus+i {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform 0.5s, opacity 1s;
+        }
+
+        .ripple:active::after {
+            transform: scale(0, 0);
+            opacity: 0.3;
+            transition: 0s;
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            transform-origin: 0 50%;
+            transform: scaleX(0);
+            z-index: 1000;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--accent));
+            border-radius: 5px;
+        }
+
+        /* Text Selection */
+        ::selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Advanced Navigation Effects */
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        /* Loading Skeleton Animation */
+        @keyframes skeleton-loading {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        /* Enhanced Button Styles */
+        .btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Add these new button variations */
+        .btn-success {
+            background: var(--gradient-success);
+        }
+
+        .btn-danger {
+            background: var(--gradient-danger);
+        }
+
+        .btn-purple {
+            background: var(--gradient-purple);
+        }
+
+        .btn-blue {
+            background: var(--gradient-blue);
+        }
+
+        .btn-orange {
+            background: var(--gradient-orange);
+        }
+
+        .btn-frost {
+            background: var(--gradient-frost);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: -4rem auto 3rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+        }
+
+        .stat-frame {
+            padding: 2rem;
+            text-align: center;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-frame:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 45px rgba(31, 38, 135, 0.15);
+        }
+
+        .stat-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .stat-frame:hover::before {
+            left: 100%;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .stat-icon i {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0.5;
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .stat-frame h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-frame p {
+            color: var(--text);
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 992px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                margin-top: -2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            
+            .stat-frame {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- Add Toggle Button -->
+    <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Side Navigation -->
+    <nav class="side-nav collapsed">
+        <div class="logo-container">
+            <div class="logo">MC</div>
+            <div class="logo-text">MindCare</div>
+        </div>
+
+        <div class="user-profile">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="user-avatar">
+            <div class="user-info">
+                <h4>Sarah Johnson</h4>
+                <p>Premium Member</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    My Profile
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-heartbeat"></i>
+                    Health Tracker
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-stethoscope"></i>
+                    Diagnosis
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    Analytics
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    Blog & Resources
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-headset"></i>
+                    Contact Support
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-info-circle"></i>
+                    About Us
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Log Out
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="top-nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Tests</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Resources</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-login">Login</a>
+                <a href="signup.html" class="btn btn-signup">Sign Up</a>
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <div class="content-wrapper">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="floating-icons">
+                    <i class="fas fa-brain floating-icon"
+                        style="top: 10%; left: 15%; font-size: 2rem; animation-delay: 0s;"></i>
+                    <i class="fas fa-heart floating-icon"
+                        style="top: 25%; left: 75%; font-size: 1.5rem; animation-delay: 2s;"></i>
+                    <i class="fas fa-cloud floating-icon"
+                        style="top: 65%; left: 10%; font-size: 2.5rem; animation-delay: 4s;"></i>
+                    <i class="fas fa-star floating-icon"
+                        style="top: 35%; left: 50%; font-size: 1.8rem; animation-delay: 6s;"></i>
+                    <i class="fas fa-bolt floating-icon"
+                        style="top: 75%; left: 80%; font-size: 2.2rem; animation-delay: 8s;"></i>
+                </div>
+                <h1>Welcome Back, Sarah!</h1>
+                <p>Track your mental health, take assessments, and connect with professionals - all in one place.</p>
+            </div>
+
+            <!-- Add this right after the welcome-banner div and before dashboard-cards -->
+            <div class="stats-container">
+                <div class="stat-frame glass-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-md gradient-text"></i>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <h2 class="gradient-text counter" data-target="1200">0</h2>
+                    <p>Experts for you</p>
+                </div>
+                <div class="stat-frame glass-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-icon">
+                        <i class="fas fa-users gradient-text"></i>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <h2 class="gradient-text counter" data-target="10000">0</h2>
+                    <p>User-experiences</p>
+                </div>
+                <div class="stat-frame glass-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-icon">
+                        <i class="fas fa-video gradient-text"></i>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <h2 class="gradient-text counter" data-target="500">0</h2>
+                    <p>Self help podcasts & video</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Mental Health Score</span>
+                        <div class="card-icon icon-primary">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">84/100</div>
+                    <div class="card-description">Good condition, slight anxiety detected</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Last Assessment</span>
+                        <div class="card-icon icon-accent">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">3 days ago</div>
+                    <div class="card-description">Anxiety screening test</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Weekly Progress</span>
+                        <div class="card-icon icon-success">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">+12%</div>
+                    <div class="card-description">Improved from last week</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">Next Consultation</span>
+                        <div class="card-icon icon-warning">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">Tomorrow</div>
+                    <div class="card-description">2:30 PM with Dr. Smith</div>
+                </div>
+            </div>
+
+            <!-- Mental Health Assessments -->
+            <div class="assessment-section">
+                <div class="section-header">
+                    <h2 class="section-title">Mental Health Assessments</h2>
+                    <button class="btn-view-all">
+                        View All <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="assessment-cards">
+                    <div class="assessment-card">
+                        <div class="assessment-image">
+                            <img src="https://images.unsplash.com/photo-1596574202463-6d26cccb5d21?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="Depression Test">
+                            <span class="assessment-tag">AI-Powered</span>
+                        </div>
+                        <div class="assessment-content">
+                            <h3 class="assessment-title">Depression Screening</h3>
+                            <p class="assessment-description">Evaluate symptoms of depression with our clinically
+                                validated questionnaire and AI analysis.</p>
+                            <button class="btn-start">
+                                Start Test <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="assessment-card">
+                        <div class="assessment-image">
+                            <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="Anxiety Test">
+                            <span class="assessment-tag">AI-Powered</span>
+                        </div>
+                        <div class="assessment-content">
+                            <h3 class="assessment-title">Anxiety Assessment</h3>
+                            <p class="assessment-description">Measure your anxiety levels and get personalized
+                                recommendations based on ML analysis.</p>
+                            <button class="btn-start">
+                                Start Test <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="assessment-card">
+                        <div class="assessment-image">
+                            <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="Stress Test">
+                            <span class="assessment-tag">New</span>
+                        </div>
+                        <div class="assessment-content">
+                            <h3 class="assessment-title">Stress Level Test</h3>
+                            <p class="assessment-description">Understand your stress patterns and learn coping
+                                mechanisms with our smart analysis.</p>
+                            <button class="btn-start">
+                                Start Test <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="assessment-card">
+                        <div class="assessment-image">
+                            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="Bipolar Test">
+                            <span class="assessment-tag">AI-Powered</span>
+                        </div>
+                        <div class="assessment-content">
+                            <h3 class="assessment-title">Bipolar Screening</h3>
+                            <p class="assessment-description">Early detection questionnaire for bipolar disorder
+                                symptoms with ML-based evaluation.</p>
+                            <button class="btn-start">
+                                Start Test <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Section -->
+            <div class="blog-section">
+                <div class="section-header">
+                    <h2 class="section-title">Latest Articles</h2>
+                    <button class="btn-view-all">
+                        View All <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="blog-cards">
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="Mindfulness">
+                            <span class="blog-category">Mindfulness</span>
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">5 Mindfulness Techniques to Reduce Anxiety</h3>
+                            <p class="blog-excerpt">Discover simple yet powerful mindfulness exercises that can help
+                                calm your mind and reduce anxiety symptoms in just minutes a day. Our AI analysis shows
+                                these techniques can reduce stress by up to 40%.</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Dr. Emily Chen">
+                                    <span>Dr. Emily Chen</span>
+                                </div>
+                                <span>June 15, 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="Sleep">
+                            <span class="blog-category">Sleep Health</span>
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">The Connection Between Sleep and Mental Health</h3>
+                            <p class="blog-excerpt">Learn how quality sleep affects your emotional well-being and
+                                practical tips for improving your sleep hygiene for better mental health. Our data shows
+                                patients with good sleep score 25% higher on mental wellness scales.</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/men/45.jpg"
+                                        alt="Dr. Michael Rodriguez">
+                                    <span>Dr. Michael Rodriguez</span>
+                                </div>
+                                <span>June 8, 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="Nutrition">
+                            <span class="blog-category">Nutrition</span>
+                        </div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">Nutrition for Mental Wellbeing: Foods That Help</h3>
+                            <p class="blog-excerpt">Explore the link between diet and mental health, and discover which
+                                foods can boost your mood and cognitive function naturally. Our AI nutritionist has
+                                identified 12 key foods that improve mental health markers by 30%.</p>
+                            <div class="blog-meta">
+                                <div class="blog-author">
+                                    <img src="https://randomuser.me/api/portraits/women/51.jpg" alt="Dr. Sarah Johnson">
+                                    <span>Dr. Sarah Johnson</span>
+                                </div>
+                                <span>June 1, 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Online Consultation -->
+            <div class="consultation-section">
+                <div class="section-header">
+                    <h2 class="section-title">Online Consultation</h2>
+                </div>
+                <div class="consultation-content">
+                    <div class="consultation-text">
+                        <h3>Talk to a Licensed Therapist Today</h3>
+                        <p>Connect with our team of mental health professionals for personalized advice and treatment
+                            plans. Our secure platform ensures your privacy while providing expert care from the comfort
+                            of your home. AI matching system ensures you get paired with the perfect therapist for your
+                            needs.</p>
+                        <button class="btn-consult">
+                            Book Session <i class="fas fa-video"></i>
+                        </button>
+                    </div>
+                    <div class="consultation-image">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                            alt="Online Therapy">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column footer-about">
+                    <h3>MindCare</h3>
+                    <p>Your trusted partner in mental health and wellness. Combining AI technology with professional
+                        expertise to provide personalized mental healthcare solutions.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Assessments</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Resources</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Mental Health Tests</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Online Therapy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Health Tracking</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Personalized Plans</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Emergency Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> help@mindcare.com</a></li>
+                        <li><a href="#"><i class="fas fa-phone-alt"></i> +1 (800) 123-4567</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Wellness St, Health City</a></li>
+                        <li><a href="#"><i class="fas fa-clock"></i> 24/7 Support Available</a></li>
+                        <li><a href="#"><i class="fas fa-lock"></i> HIPAA Compliant</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MindCare. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of
+                        Service</a> | <a href="#">HIPAA Compliance</a></p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Replace all existing JavaScript with this updated version
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            const sideNav = document.querySelector('.side-nav');
+            const mainContent = document.querySelector('.main-content');
+            const icon = sidebarToggle.querySelector('i');
+
+            // Toggle sidebar
+            sidebarToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sideNav.classList.toggle('active');
+                mainContent.classList.toggle('shifted');
+
+                // Toggle icon
+                if (sideNav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                    sidebarToggle.style.left = '300px';
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                    sidebarToggle.style.left = '20px';
+                }
+            });
+
+            // Close sidebar when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!sideNav.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sideNav.classList.remove('active');
+                    mainContent.classList.remove('shifted');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                    sidebarToggle.style.left = '20px';
+                }
+            });
+
+            // Prevent sidebar closing when clicking inside it
+            sideNav.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 992 && sideNav.classList.contains('active')) {
+                    sideNav.classList.remove('active');
+                    mainContent.classList.remove('shifted');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                    sidebarToggle.style.left = '20px';
+                }
+            });
+
+            // Add scroll progress indicator
+            const scrollProgress = document.createElement('div');
+            scrollProgress.className = 'scroll-progress';
+            document.body.appendChild(scrollProgress);
+
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight);
+                scrollProgress.style.transform = `scaleX(${scrolled})`;
+            });
+
+            // Add ripple effect to buttons
+            document.querySelectorAll('.btn-start, .btn-consult, .nav-link').forEach(button => {
+                button.classList.add('ripple');
+            });
+
+            // Button click handlers
+            document.querySelectorAll('.btn-start').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    const testTitle = this.closest('.assessment-card').querySelector('.assessment-title').textContent;
+                    const testDescription = this.closest('.assessment-card').querySelector('.assessment-description').textContent;
+
+                    // You can replace this with actual test functionality
+                    Swal.fire({
+                        title: `Starting ${testTitle}`,
+                        text: 'Preparing your assessment...',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Begin Test',
+                        cancelButtonText: 'Cancel',
+                        background: '#fff',
+                        customClass: {
+                            confirmButton: 'btn btn-purple',
+                            cancelButton: 'btn btn-frost'
+                        }
+                    });
+                });
+            });
+
+            // Consultation button
+            document.querySelector('.btn-consult').addEventListener('click', function () {
+                Swal.fire({
+                    title: 'Book Consultation',
+                    html: `
+                    <div class="consultation-form">
+                        <select class="form-select" id="consultationType">
+                            <option value="">Select Consultation Type</option>
+                            <option value="video">Video Call</option>
+                            <option value="audio">Audio Call</option>
+                            <option value="chat">Chat Session</option>
+                        </select>
+                        <input type="date" class="form-input" id="consultationDate" min="${new Date().toISOString().split('T')[0]}">
+                        <select class="form-select" id="consultationTime">
+                            <option value="">Select Time Slot</option>
+                            <option value="09:00">09:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="14:00">02:00 PM</option>
+                            <option value="16:00">04:00 PM</option>
+                        </select>
+                    </div>
+                `,
+                    showCancelButton: true,
+                    confirmButtonText: 'Book Now',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-frost'
+                    }
+                });
+            });
+
+            // View All buttons
+            document.querySelectorAll('.btn-view-all').forEach(button => {
+                button.addEventListener('click', function () {
+                    const sectionTitle = this.closest('.section-header').querySelector('.section-title').textContent;
+                    // Replace with actual view all functionality
+                    window.location.href = `#${sectionTitle.toLowerCase().replace(/\s+/g, '-')}`;
+                });
+            });
+
+            // Quick Links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const section = this.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+
+                    // Add active class
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Navigate to section (replace with actual routing)
+                    console.log(`Navigating to: ${section}`);
+                });
+            });
+
+            // Auth buttons
+            document.querySelector('.btn-login').addEventListener('click', function () {
+                window.location.href = 'login.html';
+            });
+
+            document.querySelector('.btn-signup').addEventListener('click', function () {
+                window.location.href = 'signup.html';
+            });
+
+            // Counter animation
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200; // The lower the slower
+
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+
+                    // Lower inc to slow and higher to slow
+                    const inc = target / speed;
+
+                    // Check if target is reached
+                    if (count < target) {
+                        // Add inc to count and output in counter
+                        counter.innerText = Math.ceil(count + inc);
+                        // Call function every ms
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+
+                updateCount();
+            });
+        });
+
+        // Add loading states to buttons
+        function addLoadingState(button) {
+            button.disabled = true;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            return () => {
+                button.disabled = false;
+                button.innerHTML = originalText;
+            };
+        }
+    </script>
+</body>
+
+</html>
