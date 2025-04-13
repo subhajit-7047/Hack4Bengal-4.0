@@ -56,7 +56,12 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            border-right: 2px solid;
+            border-image: linear-gradient(
+                to bottom,
+                var(--primary),
+                var(--accent)
+            ) 1;
             height: 100vh;
             position: fixed;
             padding: 1.5rem;
@@ -304,11 +309,18 @@
             padding: 2rem;
         }
 
-        /* Animated Gradient Welcome Banner */
+        /* Enhanced Welcome Banner */
         .welcome-banner {
-            background: linear-gradient(-45deg, #6C5CE7, #A29BFE, #00CEC9, #55EFC4);
+            background: linear-gradient(
+                45deg,
+                var(--primary) 0%,
+                var(--accent) 25%,
+                var(--success) 50%,
+                var(--accent) 75%,
+                var(--primary) 100%
+            );
             background-size: 400% 400%;
-            animation: gradient 12s ease infinite;
+            animation: gradientFlow 15s ease infinite;
             color: white;
             padding: 2.5rem;
             border-radius: 16px;
@@ -317,13 +329,13 @@
             overflow: hidden;
         }
 
-        @keyframes gradient {
+        @keyframes gradientFlow {
             0% {
                 background-position: 0% 50%;
             }
 
             50% {
-                background-position: 100% 50%;
+                background-position: 100% 150%;
             }
 
             100% {
@@ -400,6 +412,8 @@
             border: 1px solid rgba(0, 0, 0, 0.03);
             transform-style: preserve-3d;
             perspective: 1000px;
+            position: relative;
+            overflow: hidden;
         }
 
         .dashboard-card:hover {
@@ -407,6 +421,38 @@
             box-shadow:
                 20px 20px 60px rgba(0, 0, 0, 0.05),
                 -20px -20px 60px rgba(255, 255, 255, 0.8);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(108, 92, 231, 0.1) 50%,
+                transparent 100%
+            );
+            background-size: 200% 200%;
+            animation: cardGradient 3s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes cardGradient {
+            0% {
+                background-position: 100% 100%;
+            }
+
+            50% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 100% 100%;
+            }
         }
 
         .card-header {
@@ -495,8 +541,27 @@
             left: 0;
             width: 50px;
             height: 4px;
-            background: var(--gradient-primary);
-            border-radius: 4px;
+            background: linear-gradient(
+                90deg,
+                var(--primary),
+                var(--accent)
+            );
+            animation: gradientBorder 3s ease infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes gradientBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .btn-view-all {
@@ -592,7 +657,14 @@
         }
 
         .btn-start {
-            background: var(--gradient-primary);
+            background-image: linear-gradient(
+                45deg,
+                var(--primary) 0%,
+                var(--accent) 50%,
+                var(--primary) 100%
+            );
+            background-size: 200% 200%;
+            animation: buttonGradient 5s ease infinite;
             color: white;
             border: none;
             padding: 0.7rem 1.5rem;
@@ -804,7 +876,14 @@
         }
 
         .btn-consult {
-            background: var(--gradient-accent);
+            background-image: linear-gradient(
+                45deg,
+                var(--accent) 0%,
+                var(--success) 50%,
+                var(--accent) 100%
+            );
+            background-size: 200% 200%;
+            animation: buttonGradient 5s ease infinite;
             color: white;
             border: none;
             padding: 0.9rem 2rem;
@@ -1102,7 +1181,7 @@
         /* Updated Sidebar Toggle Button */
         .sidebar-toggle {
             position: fixed;
-            top: 10px;
+            top: 12px;
             left: 10px;
             width: 45px;
             height: 45px;
@@ -1246,85 +1325,6 @@
             height: 100%;
             top: 0;
             left: 0;
-            pointer-events: none;
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
-            background-repeat: no-repeat;
-            background-position: 50%;
-            transform: scale(10, 10);
-            opacity: 0;
-            transition: transform 0.5s, opacity 1s;
-        }
-
-        .ripple:active::after {
-            transform: scale(0, 0);
-            opacity: 0.3;
-            transition: 0s;
-        }
-
-        /* Scroll Progress Bar */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            transform-origin: 0 50%;
-            transform: scaleX(0);
-            z-index: 1000;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(108, 92, 231, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(var(--primary), var(--accent));
-            border-radius: 5px;
-        }
-
-        /* Text Selection */
-        ::selection {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Advanced Navigation Effects */
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::before {
-            width: 100%;
-        }
-
-        /* Loading Skeleton Animation */
-        @keyframes skeleton-loading {
-            0% {
-                background-position: -200% 0;
-            }
-
-            100% {
-                background-position: 200% 0;
-            }
-        }
-
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
         }
 
         /* Enhanced Button Styles */
@@ -1412,12 +1412,10 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
             transition: 0.5s;
         }
 
@@ -1456,10 +1454,12 @@
                 transform: translate(-50%, -50%) scale(0.5);
                 opacity: 0.5;
             }
+
             70% {
                 transform: translate(-50%, -50%) scale(1);
                 opacity: 0;
             }
+
             100% {
                 transform: translate(-50%, -50%) scale(0.5);
                 opacity: 0;
@@ -1494,7 +1494,7 @@
                 grid-template-columns: 1fr;
                 padding: 0 1rem;
             }
-            
+
             .stat-frame {
                 padding: 1.5rem;
             }
