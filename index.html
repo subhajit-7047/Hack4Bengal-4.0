@@ -1499,6 +1499,115 @@
                 padding: 1.5rem;
             }
         }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+
+        .loader:before,
+        .loader:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            animation: pulse 2s ease-out infinite;
+        }
+
+        .loader:after {
+            animation-delay: -1s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        /* Animated Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1000;
+        }
+
+        /* Enhanced Page Transitions */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            z-index: 9998;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .page-transition.active {
+            transform: translateY(0);
+        }
+
+        /* Scroll-based animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -1507,6 +1616,11 @@
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loader"></div>
+    </div>
+
     <!-- Add Toggle Button -->
     <button class="sidebar-toggle">
         <i class="fas fa-bars"></i>
@@ -2111,6 +2225,41 @@
                 button.innerHTML = originalText;
             };
         }
+
+        // Loading Screen Handler
+        window.addEventListener('load', function() {
+            const loadingScreen = document.querySelector('.loading-screen');
+            
+            // Simulate loading time (you can remove this setTimeout in production)
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                
+                // Remove from DOM after animation
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1500);
+
+            // Initialize scroll-based animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all elements with fade-in-up class
+            document.querySelectorAll('.fade-in-up').forEach(element => {
+                observer.observe(element);
+            });
+        });
     </script>
 </body>
 
