@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindCare | AI-Powered Mental Health Platform</title>
+    <title>CogniCare | AI-Powered Mental Health Platform</title>
     <style>
         /* Modern Gradient Color Palette */
         :root {
@@ -44,7 +44,7 @@
 
         body {
             background-color: var(--secondary);
-            color: var(--text);
+            color: var (--text);
             line-height: 1.7;
             display: flex;
             min-height: 100vh;
@@ -2198,97 +2198,110 @@
                 window.location.href = 'signup.html';
             });
 
-            // Counter animation
-            const counters = document.querySelectorAll('.counter');
-
-            function animateCounter(counter) {
+            // Enhanced Counter Animation with Reset and Reload functionality
+            function resetAndAnimateCounter(counter) {
                 const target = parseInt(counter.getAttribute('data-target'));
-                const duration = 2000; // Animation duration in milliseconds
-                const frameRate = 60;
-                const framesTotal = duration / (1000 / frameRate);
-                let frame = 0;
+                const duration = 2000;
+                const steps = 60;
+                const stepDuration = duration / steps;
+                let current = 0;
 
-                function updateCounter() {
-                    frame++;
-                    const progress = frame / framesTotal;
-                    const currentValue = Math.round(easeOutQuad(progress) * target);
+                // Always reset to 0 first
+                counter.textContent = '0';
 
-                    counter.textContent = currentValue.toLocaleString();
-
-                    if (frame < framesTotal) {
-                        requestAnimationFrame(updateCounter);
+                const increment = target / steps;
+                
+                function animate() {
+                    current += increment;
+                    if (current > target) {
+                        current = target;
+                    }
+                    counter.textContent = Math.round(current).toLocaleString();
+                    
+                    if (current < target) {
+                        setTimeout(animate, stepDuration);
                     }
                 }
 
-                // Start at 0
-                counter.textContent = '0';
-                requestAnimationFrame(updateCounter);
+                animate();
             }
 
-            // Easing function for smoother animation
-            function easeOutQuad(t) {
-                return t * (2 - t);
+            // Function to handle all counters
+            function initializeCounters() {
+                const counters = document.querySelectorAll('.counter');
+                counters.forEach(counter => resetAndAnimateCounter(counter));
             }
 
-            // Create intersection observer for counters
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animateCounter(entry.target);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.5
+            // Run on initial page load
+            initializeCounters();
+
+            // Run on page refresh/reload
+            window.addEventListener('beforeunload', () => {
+                const counters = document.querySelectorAll('.counter');
+                counters.forEach(counter => counter.textContent = '0');
             });
 
-            // Observe all counters
-            counters.forEach(counter => observer.observe(counter));
-        });
+            // Run when page becomes visible again
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    initializeCounters();
+                }
+            });
 
-        // Add loading states to buttons
-        function addLoadingState(button) {
-            button.disabled = true;
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-            return () => {
-                button.disabled = false;
-                button.innerHTML = originalText;
-            };
-        }
+            // Run after page is fully loaded
+            window.addEventListener('load', initializeCounters);
 
-        // Loading Screen Handler
-        window.addEventListener('load', function () {
-            const loadingScreen = document.querySelector('.loading-screen');
+            // Run when navigating back to page
+            window.addEventListener('pageshow', (event) => {
+                if (event.persisted) {
+                    initializeCounters();
+                }
+            });
 
-            // Simulate loading time (you can remove this setTimeout in production)
-            setTimeout(() => {
-                loadingScreen.classList.add('fade-out');
+            // Add loading states to buttons
+            function addLoadingState(button) {
+                button.disabled = true;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                return () => {
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                };
+            }
 
-                // Remove from DOM after animation
+            // Loading Screen Handler
+            window.addEventListener('load', function () {
+                const loadingScreen = document.querySelector('.loading-screen');
+
+                // Simulate loading time (you can remove this setTimeout in production)
                 setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }, 1500);
+                    loadingScreen.classList.add('fade-out');
 
-            // Initialize scroll-based animations
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
+                    // Remove from DOM after animation
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }, 1500);
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+                // Initialize scroll-based animations
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observe all elements with fade-in-up class
+                document.querySelectorAll('.fade-in-up').forEach(element => {
+                    observer.observe(element);
                 });
-            }, observerOptions);
-
-            // Observe all elements with fade-in-up class
-            document.querySelectorAll('.fade-in-up').forEach(element => {
-                observer.observe(element);
             });
         });
     </script>
