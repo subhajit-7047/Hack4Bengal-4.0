@@ -56,7 +56,10 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            border-right: 2px solid;
+            border-image: linear-gradient(to bottom,
+                    var(--primary),
+                    var(--accent)) 1;
             height: 100vh;
             position: fixed;
             padding: 1.5rem;
@@ -304,11 +307,16 @@
             padding: 2rem;
         }
 
-        /* Animated Gradient Welcome Banner */
+        /* Enhanced Welcome Banner */
         .welcome-banner {
-            background: linear-gradient(-45deg, #6C5CE7, #A29BFE, #00CEC9, #55EFC4);
+            background: linear-gradient(45deg,
+                    var(--primary) 0%,
+                    var(--accent) 25%,
+                    var(--success) 50%,
+                    var(--accent) 75%,
+                    var(--primary) 100%);
             background-size: 400% 400%;
-            animation: gradient 12s ease infinite;
+            animation: gradientFlow 15s ease infinite;
             color: white;
             padding: 2.5rem;
             border-radius: 16px;
@@ -317,13 +325,13 @@
             overflow: hidden;
         }
 
-        @keyframes gradient {
+        @keyframes gradientFlow {
             0% {
                 background-position: 0% 50%;
             }
 
             50% {
-                background-position: 100% 50%;
+                background-position: 100% 150%;
             }
 
             100% {
@@ -400,6 +408,8 @@
             border: 1px solid rgba(0, 0, 0, 0.03);
             transform-style: preserve-3d;
             perspective: 1000px;
+            position: relative;
+            overflow: hidden;
         }
 
         .dashboard-card:hover {
@@ -407,6 +417,36 @@
             box-shadow:
                 20px 20px 60px rgba(0, 0, 0, 0.05),
                 -20px -20px 60px rgba(255, 255, 255, 0.8);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg,
+                    transparent 0%,
+                    rgba(108, 92, 231, 0.1) 50%,
+                    transparent 100%);
+            background-size: 200% 200%;
+            animation: cardGradient 3s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes cardGradient {
+            0% {
+                background-position: 100% 100%;
+            }
+
+            50% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 100% 100%;
+            }
         }
 
         .card-header {
@@ -495,8 +535,25 @@
             left: 0;
             width: 50px;
             height: 4px;
-            background: var(--gradient-primary);
-            border-radius: 4px;
+            background: linear-gradient(90deg,
+                    var(--primary),
+                    var(--accent));
+            animation: gradientBorder 3s ease infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes gradientBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .btn-view-all {
@@ -592,7 +649,12 @@
         }
 
         .btn-start {
-            background: var(--gradient-primary);
+            background-image: linear-gradient(45deg,
+                    var(--primary) 0%,
+                    var(--accent) 50%,
+                    var(--primary) 100%);
+            background-size: 200% 200%;
+            animation: buttonGradient 5s ease infinite;
             color: white;
             border: none;
             padding: 0.7rem 1.5rem;
@@ -804,7 +866,12 @@
         }
 
         .btn-consult {
-            background: var(--gradient-accent);
+            background-image: linear-gradient(45deg,
+                    var(--accent) 0%,
+                    var(--success) 50%,
+                    var(--accent) 100%);
+            background-size: 200% 200%;
+            animation: buttonGradient 5s ease infinite;
             color: white;
             border: none;
             padding: 0.9rem 2rem;
@@ -1103,7 +1170,7 @@
         /* Updated Sidebar Toggle Button */
         .sidebar-toggle {
             position: fixed;
-            top: 10px;
+            top: 12px;
             left: 10px;
             width: 45px;
             height: 45px;
@@ -1247,85 +1314,6 @@
             height: 100%;
             top: 0;
             left: 0;
-            pointer-events: none;
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
-            background-repeat: no-repeat;
-            background-position: 50%;
-            transform: scale(10, 10);
-            opacity: 0;
-            transition: transform 0.5s, opacity 1s;
-        }
-
-        .ripple:active::after {
-            transform: scale(0, 0);
-            opacity: 0.3;
-            transition: 0s;
-        }
-
-        /* Scroll Progress Bar */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            transform-origin: 0 50%;
-            transform: scaleX(0);
-            z-index: 1000;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(108, 92, 231, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(var(--primary), var(--accent));
-            border-radius: 5px;
-        }
-
-        /* Text Selection */
-        ::selection {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Advanced Navigation Effects */
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::before {
-            width: 100%;
-        }
-
-        /* Loading Skeleton Animation */
-        @keyframes skeleton-loading {
-            0% {
-                background-position: -200% 0;
-            }
-
-            100% {
-                background-position: 200% 0;
-            }
-        }
-
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
         }
 
         /* Enhanced Button Styles */
@@ -1398,7 +1386,9 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
+            overflow: hidden;   
+            
+            height: 240px;
         }
 
         .stat-frame:hover {
@@ -1413,12 +1403,10 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
             transition: 0.5s;
         }
 
@@ -1445,24 +1433,38 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            border: 3px solid var(--primary);
-            animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
+        .pulse-ring::before,
+        .pulse-ring::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        .pulse-ring::after {
+            animation-delay: 1s;
+        }
+
+        @keyframes pulseRing {
             0% {
-                transform: translate(-50%, -50%) scale(0.5);
+                transform: translate(-50%, -50%) scale(0.8);
                 opacity: 0.5;
             }
-            70% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0;
-            }
+
             100% {
-                transform: translate(-50%, -50%) scale(0.5);
+                transform: translate(-50%, -50%) scale(2);
                 opacity: 0;
             }
         }
@@ -1495,10 +1497,126 @@
                 grid-template-columns: 1fr;
                 padding: 0 1rem;
             }
-            
+
             .stat-frame {
                 padding: 1.5rem;
             }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+
+        .loader:before,
+        .loader:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            animation: pulse 2s ease-out infinite;
+        }
+
+        .loader:after {
+            animation-delay: -1s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Animated Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1000;
+        }
+
+        /* Enhanced Page Transitions */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            z-index: 9998;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .page-transition.active {
+            transform: translateY(0);
+        }
+
+        /* Scroll-based animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;600&display=swap" rel="stylesheet">
@@ -1508,6 +1626,11 @@
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loader"></div>
+    </div>
+
     <!-- Add Toggle Button -->
     <button class="sidebar-toggle">
         <i class="fas fa-bars"></i>
@@ -1909,6 +2032,7 @@
                         <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Wellness St, Health City</a></li>
                         <li><a href="#"><i class="fas fa-clock"></i> 24/7 Support Available</a></li>
                         <li><a href="#"><i class="fas fa-lock"></i> HIPAA Compliant</a></li>
+                        <button id="contact-button">Contact here</button>
                     </ul>
                 </div>
             </div>
@@ -2077,29 +2201,50 @@
 
             // Counter animation
             const counters = document.querySelectorAll('.counter');
-            const speed = 200; // The lower the slower
 
-            counters.forEach(counter => {
-                const updateCount = () => {
-                    const target = +counter.getAttribute('data-target');
-                    const count = +counter.innerText;
+            function animateCounter(counter) {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000; // Animation duration in milliseconds
+                const frameRate = 60;
+                const framesTotal = duration / (1000 / frameRate);
+                let frame = 0;
 
-                    // Lower inc to slow and higher to slow
-                    const inc = target / speed;
+                function updateCounter() {
+                    frame++;
+                    const progress = frame / framesTotal;
+                    const currentValue = Math.round(easeOutQuad(progress) * target);
 
-                    // Check if target is reached
-                    if (count < target) {
-                        // Add inc to count and output in counter
-                        counter.innerText = Math.ceil(count + inc);
-                        // Call function every ms
-                        setTimeout(updateCount, 1);
-                    } else {
-                        counter.innerText = target;
+                    counter.textContent = currentValue.toLocaleString();
+
+                    if (frame < framesTotal) {
+                        requestAnimationFrame(updateCounter);
                     }
-                };
+                }
 
-                updateCount();
+                // Start at 0
+                counter.textContent = '0';
+                requestAnimationFrame(updateCounter);
+            }
+
+            // Easing function for smoother animation
+            function easeOutQuad(t) {
+                return t * (2 - t);
+            }
+
+            // Create intersection observer for counters
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.5
             });
+
+            // Observe all counters
+            counters.forEach(counter => observer.observe(counter));
         });
 
         // Add loading states to buttons
@@ -2112,6 +2257,41 @@
                 button.innerHTML = originalText;
             };
         }
+
+        // Loading Screen Handler
+        window.addEventListener('load', function () {
+            const loadingScreen = document.querySelector('.loading-screen');
+
+            // Simulate loading time (you can remove this setTimeout in production)
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+
+                // Remove from DOM after animation
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1500);
+
+            // Initialize scroll-based animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all elements with fade-in-up class
+            document.querySelectorAll('.fade-in-up').forEach(element => {
+                observer.observe(element);
+            });
+        });
     </script>
 </body>
 
