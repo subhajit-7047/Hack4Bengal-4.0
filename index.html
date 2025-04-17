@@ -43,7 +43,7 @@
         }
 
         body {
-            background-color: var(--secondary);
+            background-color: var (--secondary);
             color: var (--text);
             line-height: 1.7;
             display: flex;
@@ -162,7 +162,7 @@
             align-items: center;
             padding: 0.75rem 1rem;
             border-radius: 12px;
-            color: var(--text);
+            color: var (--text);
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -1718,7 +1718,7 @@
             </button>
             <ul class="top-nav-links">
                 <li><a href="#" class="active">Home</a></li>
-                <li><a href="#">Tests</a></li>
+                <li><a href="test.html">Tests</a></li>
                 <li><a href="#">Blog</a></li>
                 <li><a href="#">Resources</a></li>
             </ul>
@@ -1831,15 +1831,15 @@
                 <div class="assessment-cards">
                     <div class="assessment-card">
                         <div class="assessment-image">
-                            <img src="https://images.unsplash.com/photo-1596574202463-6d26cccb5d21?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                            <img src="https://images.unsplash.com/photo-1551844541-0c0e3f4b9f9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                                 alt="Depression Test">
-                            <span class="assessment-tag">AI-Powered</span>
+                            <!-- <span class="assessment-tag"></span> -->
                         </div>
                         <div class="assessment-content">
                             <h3 class="assessment-title">Depression Screening</h3>
                             <p class="assessment-description">Evaluate symptoms of depression with our clinically
                                 validated questionnaire and AI analysis.</p>
-                            <button class="btn-start">
+                            <button class="btn-start" onclick="startTest('depression')">
                                 Start Test <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -1848,13 +1848,13 @@
                         <div class="assessment-image">
                             <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                                 alt="Anxiety Test">
-                            <span class="assessment-tag">AI-Powered</span>
+                            <!-- <span class="assessment-tag"></span> -->
                         </div>
                         <div class="assessment-content">
                             <h3 class="assessment-title">Anxiety Assessment</h3>
                             <p class="assessment-description">Measure your anxiety levels and get personalized
                                 recommendations based on ML analysis.</p>
-                            <button class="btn-start">
+                            <button class="btn-start" onclick="startTest('anxiety')">
                                 Start Test <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -1869,7 +1869,7 @@
                             <h3 class="assessment-title">Stress Level Test</h3>
                             <p class="assessment-description">Understand your stress patterns and learn coping
                                 mechanisms with our smart analysis.</p>
-                            <button class="btn-start">
+                            <button class="btn-start" onclick="startTest('stress')">
                                 Start Test <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -1878,13 +1878,13 @@
                         <div class="assessment-image">
                             <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                                 alt="Bipolar Test">
-                            <span class="assessment-tag">AI-Powered</span>
+                            <!-- <span class="assessment-tag"></span> -->
                         </div>
                         <div class="assessment-content">
                             <h3 class="assessment-title">Bipolar Screening</h3>
                             <p class="assessment-description">Early detection questionnaire for bipolar disorder
                                 symptoms with ML-based evaluation.</p>
-                            <button class="btn-start">
+                            <button class="btn-start" onclick="startTest('bipolar')">
                                 Start Test <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
@@ -1919,9 +1919,11 @@
                                 </div>
                                 <span>June 15, 2023</span>
                             </div>
+                            <button class="btn-read-more" onclick="window.location.href='https://medium.com/tag/anxiety'">Read More</button>
                         </div>
                     </div>
-                    <div class="blog-card">
+                    
+                    <div class="blog-card" >
                         <div class="blog-image">
                             <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                                 alt="Sleep">
@@ -1940,9 +1942,11 @@
                                 </div>
                                 <span>June 8, 2023</span>
                             </div>
+                            <button class="btn-read-more" onclick="window.location.href='https://medium.com/@mina_5584/why-is-sleep-essential-for-your-mental-health-6369b95edc42'">Read More</button>
                         </div>
                     </div>
-                    <div class="blog-card">
+
+                    <div class="blog-card" >
                         <div class="blog-image">
                             <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                                 alt="Nutrition">
@@ -1960,6 +1964,7 @@
                                 </div>
                                 <span>June 1, 2023</span>
                             </div>
+                            <button class="btn-read-more" onclick="window.location.href='https://medium.com/@iqrasohail849/foods-for-better-mental-health-c9cf211f16b2'">Read More</button>
                         </div>
                     </div>
                 </div>
@@ -2304,7 +2309,112 @@
                     observer.observe(element);
                 });
             });
+
+            const viewAllAssessmentsBtn = document.querySelector('.btn-view-all');
+            const assessmentCardsContainer = document.querySelector('.assessment-cards');
+
+            const initialAssessments = [
+                {
+                    title: "Depression Screening",
+                    description: "Evaluate symptoms of depression with our clinically validated questionnaire and AI analysis.",
+                    image: "static/image/img1.jpg", 
+                    tag: "Powered"
+                },
+                {
+                    title: "Anxiety Assessment",
+                    description: "Measure your anxiety levels and get personalized recommendations based on ML analysis.",
+                    image: "https://images.unsplash.com/photo-1527613426441-4da17471b66d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                    tag: "Powered"
+                },
+                {
+                    title: "Stress Level Test",
+                    description: "Understand your stress patterns and learn coping mechanisms with our smart analysis.",
+                    image: "https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                    tag: "New"
+                },
+                {
+                    title: "Bipolar Screening",
+                    description: "Early detection questionnaire for bipolar disorder symptoms with ML-based evaluation.",
+                    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                    tag: "Powered"
+                }
+            ];
+
+            const additionalConditions = [
+                {
+                    title: "OCD",
+                    description: "Obsessions and compulsions",
+                    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                    tag: "Powered"
+                },
+                {
+                    title: "PTSD",
+                    description: "Post-traumatic stress",
+                    image: "https://images.unsplash.com/photo-1517602302552-471fe67acf66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                    tag: "Powered"
+                },
+                {
+                    title: "Insomnia",
+                    description: "Chronic sleep difficulties",
+                    image: "https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                    tag: "Powered"
+                },
+                {
+                    title: "ADHD",
+                    description: "Attention and hyperactivity",
+                    image:"static/image/img2.jpg", // Updated image
+                    tag: "Powered"
+                },
+                {
+                    title: "Autism",
+                    description: "Social communication challenges",
+                    image: "static/image/img3.jpg", // Updated image
+                    tag: "Powered"
+                }
+            ];
+
+            let showingAll = false;
+
+            function renderAssessments(assessments) {
+                assessmentCardsContainer.innerHTML = "";
+                assessments.forEach(assessment => {
+                    const card = document.createElement('div');
+                    card.className = 'assessment-card';
+                    card.innerHTML = `
+                        <div class="assessment-image">
+                            <img src="${assessment.image}" alt="${assessment.title}">
+                            <span class="assessment-tag">${assessment.tag}</span>
+                        </div>
+                        <div class="assessment-content">
+                            <h3 class="assessment-title">${assessment.title}</h3>
+                            <p class="assessment-description">${assessment.description}</p>
+                            <button class="btn-start" onclick="startTest('${assessment.title.toLowerCase().replace(/\s+/g, '-')}')">
+                                Start Test <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    `;
+                    assessmentCardsContainer.appendChild(card);
+                });
+            }
+
+            viewAllAssessmentsBtn.addEventListener('click', function () {
+                if (showingAll) {
+                    renderAssessments(initialAssessments);
+                    viewAllAssessmentsBtn.innerHTML = 'View All <i class="fas fa-chevron-right"></i>';
+                } else {
+                    renderAssessments([...initialAssessments, ...additionalConditions]);
+                    viewAllAssessmentsBtn.innerHTML = 'Show Less <i class="fas fa-chevron-up"></i>';
+                }
+                showingAll = !showingAll;
+            });
+
+            // Initial render
+            renderAssessments(initialAssessments);
         });
+
+        function startTest(condition) {
+            window.location.href = `test.html?condition=${condition}`;
+        }
     </script>
 </body>
 

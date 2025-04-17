@@ -194,7 +194,7 @@
 
       .step-connector.completed::after {
         width: 100%;
-        background: var(--success);
+        background: var (--success);
       }
 
       .main-content {
@@ -384,7 +384,7 @@
         justify-content: space-between;
         margin-bottom: 8px;
         font-size: 0.9rem;
-        color: var(--gray);
+        color: var (--gray);
       }
 
       .progress-bar {
@@ -576,7 +576,7 @@
       }
 
       .doctor-card .distance {
-        color: var(--gray);
+        color: var (--gray);
         font-style: italic;
         font-size: 0.85rem;
       }
@@ -716,7 +716,7 @@
         text-align: center;
         margin-top: 60px;
         padding: 25px;
-        color: var(--text-light);
+        color: var (--text-light);
         font-size: 0.9rem;
         background: rgba(0, 0, 0, 0.1);
         border-radius: 16px;
@@ -734,7 +734,7 @@
       }
 
       .footer-links a {
-        color: var(--text-light);
+        color: var (--text-light);
         text-decoration: none;
         transition: all 0.3s;
       }
@@ -811,6 +811,25 @@
           font-size: 0.7rem;
         }
       }
+
+      /* Add basic styling for the Home button */
+      .home-button {
+        display: inline-block;
+        margin: 20px;
+        padding: 10px 20px;
+        background-color: #6C5CE7;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        transition: background-color 0.3s ease;
+      }
+
+      .home-button:hover {
+        background-color: #5649C2;
+      }
     </style>
   </head>
   <body>
@@ -825,6 +844,9 @@
     </header>
 
     <div class="container">
+      <!-- Home Button -->
+      <a href="index.html" class="home-button">Home</a>
+
       <!-- Assessment Flow Steps -->
       <div class="assessment-flow">
         <div class="flow-steps">
@@ -2290,6 +2312,25 @@
         emergencyBtn.addEventListener("click", function () {
           emergencyContacts.style.display =
             emergencyContacts.style.display === "none" ? "block" : "none";
+        });
+
+        // Automatically select condition based on query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const conditionParam = urlParams.get("condition");
+        if (conditionParam) {
+            const conditionCard = document.querySelector(`.condition-card[data-condition="${conditionParam}"]`);
+            if (conditionCard) {
+                conditionCard.click(); // Simulate click to select the condition
+                document.getElementById("startAssessmentBtn").click(); // Automatically start the assessment
+            }
+        }
+
+        // Add click functionality to blog cards
+        const blogCards = document.querySelectorAll(".blog-card");
+        blogCards.forEach((card) => {
+          card.addEventListener("click", function () {
+            window.location.href = "https://medium.com/tag/anxiety";
+          });
         });
       });
     </script>
