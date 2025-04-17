@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,7 +61,8 @@
             margin-bottom: 0.5rem;
         }
 
-        input, textarea {
+        input,
+        textarea {
             width: 100%;
             padding: 0.8rem;
             border: 1px solid #e1e1e1;
@@ -71,7 +73,8 @@
             background: transparent;
         }
 
-        input:focus, textarea:focus {
+        input:focus,
+        textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
@@ -122,18 +125,25 @@
             position: relative;
         }
 
-        input:focus ~ label,
-        input:not(:placeholder-shown) ~ label,
-        textarea:focus ~ label,
-        textarea:not(:placeholder-shown) ~ label {
+        input:focus~label,
+        input:not(:placeholder-shown)~label,
+        textarea:focus~label,
+        textarea:not(:placeholder-shown)~label {
             transform: translateY(-25px) scale(0.8);
             color: var(--primary);
         }
 
         /* Success Message Animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .success-message {
@@ -143,11 +153,85 @@
             margin-top: 1rem;
             animation: fadeIn 0.3s ease forwards;
         }
+
+        /* Counter Stats Styles */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        .heading {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #6C5CE7 0%, #00CEC9 50%, #A29BFE 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 3s ease infinite;
+            background-size: 200% auto;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        #contact-button{
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <form class="contact-form" id="contactForm">
+        <div class="heading">Contact Us</div>
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number" data-target="1500">0</div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="950">0</div>
+                <div class="stat-label">Issues Resolved</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="99">0</div>
+                <div class="stat-label">Satisfaction Rate</div>
+            </div>
+        </div>
         <div class="input-row">
             <div class="form-group">
                 <label for="firstName">First Name</label>
@@ -180,13 +264,62 @@
     </form>
 
     <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        // Enhanced Counter Animation Function
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+
+            counters.forEach(counter => {
+                // Reset counter to 0
+                counter.textContent = '0';
+
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const startTime = performance.now();
+
+                function updateCounter(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Easing function for smooth animation
+                    const easeOutQuad = progress * (2 - progress);
+                    const currentValue = Math.round(easeOutQuad * target);
+
+                    counter.textContent = currentValue;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+
+                requestAnimationFrame(updateCounter);
+            });
+        }
+
+        // Run animation on initial load
+        animateCounters();
+
+        // Run animation on page reload
+        window.addEventListener('load', animateCounters);
+
+        // Run animation when page becomes visible
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                animateCounters();
+            }
+        });
+
+        // Run animation on manual refresh
+        if (window.performance && window.performance.navigation.type === 1) {
+            animateCounters();
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             // Show success message
             const successMessage = document.querySelector('.success-message');
             successMessage.style.display = 'block';
-            
+
             // Reset form after 2 seconds
             setTimeout(() => {
                 this.reset();
@@ -195,10 +328,11 @@
         });
 
         // Phone number formatting
-        document.getElementById('phone').addEventListener('input', function(e) {
+        document.getElementById('phone').addEventListener('input', function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,4})/);
             e.target.value = !x[2] ? x[1] : '+' + x[1] + ' ' + x[2] + (x[3] ? ' ' + x[3] : '') + (x[4] ? ' ' + x[4] : '');
         });
     </script>
 </body>
+
 </html>
