@@ -811,6 +811,40 @@
             object-fit: cover;
         }
 
+        .btn-read-more {
+            background-image: linear-gradient(45deg, var(--primary) 0%, var(--accent) 50%, var(--primary) 100%);
+            background-size: 200% 200%;
+            animation: buttonGradient 5s ease infinite;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-read-more:hover {
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-read-more i {
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-read-more:hover i {
+            transform: translateX(3px);
+        }
+
         /* Online Consultation */
         .consultation-section {
             background: white;
