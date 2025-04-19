@@ -48,6 +48,7 @@
             line-height: 1.7;
             display: flex;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Glass Morphism Side Navigation */
@@ -62,12 +63,13 @@
                     var(--accent)) 1;
             height: 100vh;
             position: fixed;
-            padding: 1.5rem;
             box-shadow: 0 4px 30px rgba(108, 92, 231, 0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 100;
             left: -280px;
-            /* Changed from transform to left */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .side-nav.collapsed {
@@ -76,7 +78,48 @@
 
         .side-nav.active {
             left: 0;
-            /* Changed from transform to left */
+        }
+
+        /* Wrapper for scrollable content */
+        .nav-scroll-wrapper {
+            height: calc(100vh - 200px);
+            /* Adjust based on your logo and user profile height */
+            overflow-y: auto;
+            padding: 0 1.5rem;
+            margin-right: -8px;
+            /* Compensate for scrollbar width */
+        }
+
+        /* Update nav-menu styling */
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Navigation Container */
+        .nav-container {
+            padding: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Scrollbar styling for nav-scroll-wrapper */
+        .nav-scroll-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .nav-scroll-wrapper::-webkit-scrollbar-track {
+            background: rgba(108, 92, 231, 0.05);
+            border-radius: 3px;
+        }
+
+        .nav-scroll-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(108, 92, 231, 0.2);
+            border-radius: 3px;
+        }
+
+        .nav-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(108, 92, 231, 0.3);
         }
 
         .logo-container {
@@ -1701,62 +1744,64 @@
             </div>
         </div>
 
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="#" class="nav-link active">
-                    <i class="fas fa-home"></i>
-                    Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-user"></i>
-                    My Profile
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="C:\Users\suvam\Desktop\Hackathon\Hack4Bengal-4.0\health-tracker-new.html" class="nav-link">
-                    <i class="fas fa-heartbeat"></i>
-                    Health Tracker
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-stethoscope"></i>
-                    Diagnosis
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-chart-line"></i>
-                    Analytics
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-book"></i>
-                    Blog & Resources
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-headset"></i>
-                    Contact Support
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-info-circle"></i>
-                    About Us
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Log Out
-                </a>
-            </li>
-        </ul>
+        <div class="nav-scroll-wrapper">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a href="test.html" class="nav-link">
+                        <i class="fas fa-clipboard-check"></i>
+                        Mental Health Tests
+                    </a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="health-tracker-new.html" class="nav-link">
+                        <i class="fas fa-heartbeat"></i>
+                        Health Tracker
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="test.html" class="nav-link">
+                        <i class="fas fa-stethoscope"></i>
+                        Diagnosis
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="health-tracker-new.html#analytics" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="blog.html" class="nav-link">
+                        <i class="fas fa-book"></i>
+                        Blog & Resources
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">
+                        <i class="fas fa-headset"></i>
+                        Contact Support
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">
+                        <i class="fas fa-info-circle"></i>
+                        About Us
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Log Out
+                    </a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <!-- Main Content -->
@@ -1767,10 +1812,10 @@
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="top-nav-links">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#assessments">Tests</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#resources">Resources</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="test.html">Tests</a></li>
+                <li><a href="health-tracker-new.html">Health Tracker</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
             <div class="auth-buttons">
                 <a href="login.html" class="btn btn-login">Login</a>
@@ -1946,9 +1991,9 @@
             <div class="blog-section" id="blog">
                 <div class="section-header">
                     <h2 class="section-title">Latest Articles</h2>
-                    <button class="btn-view-all">
+                    <!-- <button class="btn-view-all">
                         View All <i class="fas fa-chevron-right"></i>
-                    </button>
+                    </button> -->
                 </div>
                 <div class="blog-cards">
                     <div class="blog-card">
@@ -2062,7 +2107,7 @@
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="#assesment"><i class="fas fa-chevron-right"></i> Assessments</a></li>
+                        <li><a href="#assessments"><i class="fas fa-chevron-right"></i> Assessments</a></li>
                         <li><a href="#blog"><i class="fas fa-chevron-right"></i> Blog</a></li>
                         <li><a href="#resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
@@ -2081,13 +2126,14 @@
                                 Support</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-column">
                     <h3>Contact Us</h3>
                     <ul>
-                        <li><a href="#"><i class="fas fa-envelope"></i> elp@mindcareh.com</a></li>
-                        <li><a href="#"><i class="fas fa-phone-alt"></i> +1 (800) 123-4567</a></li>
-                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Wellness St, Health City</a></li>
-                        <li><a href="#"><i class="fas fa-clock"></i> 24/7 Support Available</a></li>
+                        <li><a href="contact.html"><i class="fas fa-envelope"></i> elp@mindcareh.com</a></li>
+                        <li style="display: none;"><a href="#"><i class="fas fa-phone-alt"></i> +1 (800) 123-4567</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Wellness St, Health City</li>
+                        <li><i class="fas fa-clock"></i> 24/7 Support Available</li>
                         <a href="contact.html" style="text-decoration: none;">
                             <button id="contact-button"
                                 style="cursor: pointer; padding: 10px 20px; background: var(--gradient-primary); color: white; border: none; border-radius: 8px; font-weight: 600;">Contact
@@ -2235,18 +2281,26 @@
                 });
             });
 
-            // Quick Links
+            // Quick Links and Navigation
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
-                    const section = this.textContent.trim().toLowerCase().replace(/\s+/g, '-');
-
+                    const href = this.getAttribute('href');
+                    
                     // Add active class
                     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Navigate to section (replace with actual routing)
-                    console.log(`Navigating to: ${section}`);
+                    if (href.startsWith('#')) {
+                        // It's an anchor link, scroll to section
+                        const targetSection = document.querySelector(href);
+                        if (targetSection) {
+                            targetSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    } else {
+                        // It's a page link, navigate to the page
+                        window.location.href = href;
+                    }
                 });
             });
 
