@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Contributors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #0f0f0f;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient 8s ease infinite;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .member-card {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s, box-shadow 0.5s;
+            perspective: 1000px;
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.3);
+        }
+
+        .member-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid #4ecdc4;
+            transition: transform 0.5s;
+        }
+
+        .member-card:hover .member-image {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .member-name {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .member-role {
+            color: #4ecdc4;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-desc {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.5s ease 0.2s;
+        }
+
+        .member-card:hover .social-links {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .social-link {
+            color: #fff;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-link:hover {
+            background: #4ecdc4;
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (max-width: 768px) {
+            .team-container {
+                grid-template-columns: 1fr;
+            }
+
+            .gradient-text {
+                font-size: 2rem;
+            }
+
+            .member-card {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .member-card {
+            animation: cardEntrance 0.8s ease-out forwards;
+        }
+
+        .member-card:nth-child(1) { animation-delay: 0.2s; }
+        .member-card:nth-child(2) { animation-delay: 0.4s; }
+        .member-card:nth-child(3) { animation-delay: 0.6s; }
+        .member-card:nth-child(4) { animation-delay: 0.8s; }
+    </style>
+</head>
+<body>
+    <h1 class="gradient-text">Our Amazing Team</h1>
+    
+    <div class="team-container">
+        <!-- Team Member 1 -->
+        <div class="member-card">
+            <img src="https://via.placeholder.com/150" alt="Member 1" class="member-image">
+            <h2 class="member-name">John Doe</h2>
+            <p class="member-role">Frontend Developer</p>
+            <p class="member-desc">Passionate about creating beautiful user interfaces and amazing user experiences.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="member-card">
+            <img src="https://via.placeholder.com/150" alt="Member 2" class="member-image">
+            <h2 class="member-name">Jane Smith</h2>
+            <p class="member-role">Backend Developer</p>
+            <p class="member-desc">Expert in server-side architecture and database optimization.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-stack-overflow"></i></a>
+            </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="member-card">
+            <img src="https://via.placeholder.com/150" alt="Member 3" class="member-image">
+            <h2 class="member-name">Mike Johnson</h2>
+            <p class="member-role">Full Stack Developer</p>
+            <p class="member-desc">Loves working on both frontend and backend technologies.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="member-card">
+            <img src="https://via.placeholder.com/150" alt="Member 4" class="member-image">
+            <h2 class="member-name">Sarah Williams</h2>
+            <p class="member-role">UI/UX Designer</p>
+            <p class="member-desc">Creative designer focused on user-centered design principles.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-dribbble"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-behance"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

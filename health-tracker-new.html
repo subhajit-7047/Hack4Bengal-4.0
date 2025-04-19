@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Analytics | CogniCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        /* Import root variables */
+        @import url('styles/variables.css');
+
+        .parallax-container {
+            height: 100vh;
+            overflow-x: hidden;
+            perspective: 8px;
+            perspective-origin: 0%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .parallax-header {
+            transform-style: preserve-3d;
+            height: 40vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: translateZ(-8px) scale(2);
+            z-index: -1;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+        }
+
+        .header-content {
+            transform: translateZ(-4px) scale(1.5);
+            text-align: center;
+            color: white;
+        }
+
+        .header-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .health-dashboard {
+            background: white;
+            padding: 2rem;
+            border-radius: 30px 30px 0 0;
+            margin-top: -50px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .metric-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            background: var(--gradient-primary);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .chart-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .time-filter {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .time-filter button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-filter button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .chart-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="parallax-container">
+        <div class="parallax-header">
+            <div class="parallax-bg"></div>
+            <div class="header-content">
+                <h1 class="header-title">Health Analytics Dashboard</h1>
+                <p>Track your mental wellness journey with real-time insights</p>
+            </div>
+        </div>
+
+        <div class="health-dashboard">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>Overall Wellness Score</h3>
+                        <div class="metric-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">87%</div>
+                    <div class="metric-trend">↑ 5% from last month</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>Stress Level</h3>
+                        <div class="metric-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">Low</div>
+                    <div class="metric-trend">↓ Decreased significantly</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>Sleep Quality</h3>
+                        <div class="metric-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">8.2h</div>
+                    <div class="metric-trend">→ Consistent pattern</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h3>Activity Score</h3>
+                        <div class="metric-icon">
+                            <i class="fas fa-walking"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value">92%</div>
+                    <div class="metric-trend">↑ Above target</div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Mood Trends</h3>
+                        <div class="time-filter">
+                            <button class="active">Week</button>
+                            <button>Month</button>
+                            <button>Year</button>
+                        </div>
+                    </div>
+                    <canvas id="moodChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Sleep Analysis</h3>
+                    </div>
+                    <div id="sleepChart"></div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Anxiety Patterns</h3>
+                    </div>
+                    <div id="anxietyChart"></div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Activity Impact</h3>
+                    </div>
+                    <div id="activityChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart data and configurations
+        const moodChartConfig = {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Mood Level',
+                    data: [8, 7, 6, 8, 9, 8, 7],
+                    borderColor: '#6c5ce7',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        };
+
+        // Initialize charts
+        const moodChart = new Chart(
+            document.getElementById('moodChart'),
+            moodChartConfig
+        );
+
+        // Sleep chart using ApexCharts
+        const sleepChartOptions = {
+            series: [{
+                name: 'Hours of Sleep',
+                data: [7.5, 8.2, 6.5, 7.8, 8.0, 7.2, 8.5]
+            }],
+            chart: {
+                type: 'area',
+                height: 250,
+                toolbar: { show: false }
+            },
+            colors: ['#6c5ce7'],
+            fill: {
+                type: 'gradient'
+            }
+        };
+
+        const sleepChart = new ApexCharts(
+            document.getElementById('sleepChart'),
+            sleepChartOptions
+        );
+        sleepChart.render();
+
+        // Anxiety chart
+        const anxietyChartOptions = {
+            series: [{
+                name: 'Anxiety Level',
+                data: [3, 4, 2, 3, 1, 2, 3]
+            }],
+            chart: {
+                type: 'bar',
+                height: 250,
+                toolbar: { show: false }
+            },
+            colors: ['#6c5ce7']
+        };
+
+        const anxietyChart = new ApexCharts(
+            document.getElementById('anxietyChart'),
+            anxietyChartOptions
+        );
+        anxietyChart.render();
+
+        // Activity chart
+        const activityChartOptions = {
+            series: [{
+                name: 'Activity Score',
+                data: [75, 85, 90, 88, 92, 85, 95]
+            }],
+            chart: {
+                type: 'radar',
+                height: 250,
+                toolbar: { show: false }
+            },
+            colors: ['#6c5ce7']
+        };
+
+        const activityChart = new ApexCharts(
+            document.getElementById('activityChart'),
+            activityChartOptions
+        );
+        activityChart.render();
+
+        // Time filter button functionality
+        const timeFilterButtons = document.querySelectorAll('.time-filter button');
+        timeFilterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                timeFilterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Update charts based on selected time period
+                updateCharts(button.textContent.toLowerCase());
+            });
+        });
+
+        function updateCharts(timeRange) {
+            // Sample data for different time ranges
+            const data = {
+                week: {
+                    mood: [8, 7, 6, 8, 9, 8, 7],
+                    sleep: [7.5, 8.2, 6.5, 7.8, 8.0, 7.2, 8.5],
+                    anxiety: [3, 4, 2, 3, 1, 2, 3],
+                    activity: [75, 85, 90, 88, 92, 85, 95]
+                },
+                month: {
+                    mood: Array.from({length: 30}, () => Math.floor(Math.random() * 4) + 6),
+                    sleep: Array.from({length: 30}, () => Math.floor(Math.random() * 3) + 6),
+                    anxiety: Array.from({length: 30}, () => Math.floor(Math.random() * 5) + 1),
+                    activity: Array.from({length: 30}, () => Math.floor(Math.random() * 30) + 70)
+                },
+                year: {
+                    mood: Array.from({length: 12}, () => Math.floor(Math.random() * 4) + 6),
+                    sleep: Array.from({length: 12}, () => Math.floor(Math.random() * 3) + 6),
+                    anxiety: Array.from({length: 12}, () => Math.floor(Math.random() * 5) + 1),
+                    activity: Array.from({length: 12}, () => Math.floor(Math.random() * 30) + 70)
+                }
+            };
+
+            // Update each chart with new data
+            moodChart.data.datasets[0].data = data[timeRange].mood;
+            moodChart.update();
+
+            sleepChart.updateSeries([{
+                data: data[timeRange].sleep
+            }]);
+
+            anxietyChart.updateSeries([{
+                data: data[timeRange].anxiety
+            }]);
+
+            activityChart.updateSeries([{
+                data: data[timeRange].activity
+            }]);
+        }
+
+        // Add parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxBg = document.querySelector('.parallax-bg');
+            const headerContent = document.querySelector('.header-content');
+            
+            parallaxBg.style.transform = `translateZ(-8px) scale(2) translateY(${scrolled * 0.5}px)`;
+            headerContent.style.transform = `translateZ(-4px) scale(1.5) translateY(${scrolled * 0.3}px)`;
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -116,16 +116,16 @@ if submitted:
             input_df[col] = le.fit_transform(input_df[col])
 
     try:
-        predictions = model.predict(input_df)  # No need to index [0] here
+        predictions = model.predict(input_df)  # Removed [0] here
         probs = model.predict_proba(input_df)
 
         result = []
         confidence_scores = {}
 
         for i, disease in enumerate(diagnoses):
-            if predictions[0][i] == 1:
+            if predictions[0][i] == 1: # Still using [0] because predict returns one row
                 try:
-                    confidence = round(probs[i][0][1] * 100, 2)
+                    confidence = round(probs[0][i][1] * 100, 2) # Accessing probabilities correctly
                 except:
                     confidence = 50.0  # fallback
                 result.append(disease)
