@@ -20,7 +20,7 @@ except FileNotFoundError:
     st.warning("Feature scaler not found. Predictions might be affected.")
 
 diagnoses = ['Depression', 'Anxiety', 'OCD', 'PTSD', 'Bipolar', 'Insomnia', 'ADHD', 'Autism']
-numerical_cols = ['Age', 'Sleep_Hours', 'Attention_Span']
+numerical_cols = ['Age', 'Attention_Span', 'Sleep_Hours']
 categorical_cols_from_training = list(label_encoders.keys())
 
 # Page config
@@ -116,20 +116,27 @@ st.markdown("</div>", unsafe_allow_html=True)
 if st.session_state['predict_clicked']:
     input_df = pd.DataFrame([input_data])
 
+    st.write("Columns in input_df before numerical conversion:", input_df.columns)
+
     # Explicitly convert numerical columns to numeric type
     for col in numerical_cols:
         if col in input_df.columns:
             input_df[col] = pd.to_numeric(input_df[col], errors='coerce')
             input_df.fillna(input_df[col].mean(), inplace=True) # Handle potential NaNs after conversion
 
+    st.write("Columns in input_df after numerical conversion:", input_df.columns)
+
     # Scale numerical features
     if scaler is not None:
-        numerical_input = input_df[numerical_cols]
-        # Ensure all expected columns are present in the input
-        if all(col in numerical_input.columns for col in numerical_cols):
-            input_df[numerical_cols] = scaler.transform(numerical_input)
-        else:
-            st.error("Error: Not all numerical columns found for scaling.")
+        try:
+            numerical_input = input_df[['Age', 'Attention_Span', 'Sleep_Hours']]
+            st.write("Numerical input before scaling:", numerical_input.columns)
+            input_df[['Age', 'Attention_Span', 'Sleep_Hours']] = scaler.transform(numerical_input)
+            st.write("Numerical input after scaling:", input_df[['Age', 'Attention_Span', 'Sleep_Hours']].head())
+        except KeyError as e:
+            st.error(f"Error: One of the numerical columns is missing in the input data: {e}")
+        except ValueError as e:
+            st.error(f"Error during scaling: {e}")
 
     # Impute missing values using SimpleImputer for categorical columns
     imputer_categorical = SimpleImputer(strategy="most_frequent")
