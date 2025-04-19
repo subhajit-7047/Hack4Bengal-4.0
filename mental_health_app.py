@@ -12,6 +12,7 @@ from sklearn.impute import SimpleImputer
 # Load model and features
 model = joblib.load("mental_health_model.pkl")
 features = joblib.load("features.pkl")
+label_encoders = joblib.load("label_encoders.pkl") # Load the saved encoders
 
 diagnoses = ['Depression', 'Anxiety', 'OCD', 'PTSD', 'Bipolar', 'Insomnia', 'ADHD', 'Autism']
 
@@ -84,6 +85,9 @@ st.markdown("<div class='title'>🧠 Mental Health Disease Predictor</div>", uns
 
 st.markdown("<div class='form-card'>", unsafe_allow_html=True)
 
+if 'predict_clicked' not in st.session_state:
+    st.session_state['predict_clicked'] = False
+
 # Input Form
 input_data = {}
 with st.form("mental_health_form"):
@@ -97,37 +101,55 @@ with st.form("mental_health_form"):
         else:
             input_data[feature] = st.selectbox(f"{feature}", ['Yes', 'No'])
 
-    submitted = st.form_submit_button("🔍 Predict Now")
+    predict_button = st.form_submit_button("🔍 Predict Now", on_click=lambda: st.session_state.update(predict_clicked=True))
 
 st.markdown("</div>", unsafe_allow_html=True)
 
-# Prediction Logic
-if submitted:
+# Prediction Logic (only runs when the button is clicked)
+if st.session_state['predict_clicked']:
     input_df = pd.DataFrame([input_data])
 
-    # Handle missing values using SimpleImputer
-    imputer = SimpleImputer(strategy="most_frequent")
-    input_df = pd.DataFrame(imputer.fit_transform(input_df), columns=input_df.columns)
+    # Explicitly convert numerical columns to numeric type
+    numerical_cols = ['Age', 'Sleep_Hours', 'Attention_Span']
+    for col in numerical_cols:
+        if col in input_df.columns:
+            input_df[col] = pd.to_numeric(input_df[col], errors='coerce')
+            input_df.fillna(input_df.mean(numeric_only=True), inplace=True) # Handle potential NaNs after conversion
 
-    # Encode categorical features
+    # Handle missing values using SimpleImputer for other columns
+    imputer = SimpleImputer(strategy="most_frequent")
+    categorical_cols = [col for col in input_df.columns if col not in numerical_cols]
+    input_df[categorical_cols] = imputer.fit_transform(input_df[categorical_cols])
+    input_df = pd.DataFrame(input_df, columns=input_df.columns) # Recreate DataFrame after imputation
+
+    # Encode categorical features using the SAVED LabelEncoders
     for col in input_df.columns:
-        if input_df[col].dtype == 'object':
-            le = LabelEncoder()
-            input_df[col] = le.fit_transform(input_df[col])
+        if col in label_encoders:
+            try:
+                input_df[col] = label_encoders[col].transform(input_df[col])
+            except KeyError:
+                st.error(f"Error: Column '{col}' not found in LabelEncoder.")
+            except ValueError as e:
+                st.error(f"Error encoding column '{col}': {e}")
+        elif input_df[col].dtype == 'object' and col not in label_encoders:
+            st.warning(f"Warning: Column '{col}' is categorical but no LabelEncoder was found.")
+
+    # Ensure correct column order
+    input_df = input_df[features]
 
     try:
-        predictions = model.predict(input_df)  # Removed [0] here
+        predictions = model.predict(input_df)
         probs = model.predict_proba(input_df)
 
         result = []
         confidence_scores = {}
 
         for i, disease in enumerate(diagnoses):
-            if predictions[0][i] == 1: # Still using [0] because predict returns one row
+            if predictions[0][i] == 1:
                 try:
-                    confidence = round(probs[0][i][1] * 100, 2) # Accessing probabilities correctly
-                except:
-                    confidence = 50.0  # fallback
+                    confidence = round(probs[i][0][1] * 100, 2)
+                except IndexError:
+                    confidence = 50.0  # Fallback if probability access fails
                 result.append(disease)
                 confidence_scores[disease] = confidence
 
