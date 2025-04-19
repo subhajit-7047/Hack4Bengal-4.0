@@ -1303,6 +1303,13 @@
             z-index: 0;
         }
 
+        #Quick-link {
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
         .btn-start:hover::before,
         .btn-consult:hover::before {
             width: 0;
@@ -1720,8 +1727,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="https://github.com/subhajit-7047/Hack4Bengal-4.0/main/mental_health_app.py
-                " class="nav-link">
+                <a href="#" class="nav-link">
                     <i class="fas fa-chart-line"></i>
                     Analytics
                 </a>
@@ -2050,43 +2056,43 @@
                     <h3>MindCare</h3>
                     <p>Your trusted partner in mental health and wellness. Combining AI technology with professional
                         expertise to provide personalized mental healthcare solutions.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
+
                 </div>
-                <div class="footer-column">
+                <div class="footer-column" id="Quick-link">
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Assessments</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Resources</a></li>
+                        <li><a href="#assesment"><i class="fas fa-chevron-right"></i> Assessments</a></li>
+                        <li><a href="#blog"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                        <li><a href="#resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Services</h3>
                     <ul>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Mental Health Tests</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Online Therapy</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Health Tracking</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Personalized Plans</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Emergency Support</a></li>
+                        <li><a href="test.html"><i class="fas fa-chevron-right"></i> Mental Health Tests</a></li>
+                        <li><a href="#resources"><i class="fas fa-chevron-right"></i> Online Therapy</a></li>
+                        <li><a href="health-tracker-new.html"><i class="fas fa-chevron-right"></i> Health Tracking</a>
+                        </li>
+                        <li style="display: none;"><a href="#"><i class="fas fa-chevron-right"></i> Personalized
+                                Plans</a></li>
+                        <li style="display: none;"><a href="#"><i class="fas fa-chevron-right"></i> Emergency
+                                Support</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Contact Us</h3>
                     <ul>
-                        <li><a href="#"><i class="fas fa-envelope"></i> help@mindcare.com</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> elp@mindcareh.com</a></li>
                         <li><a href="#"><i class="fas fa-phone-alt"></i> +1 (800) 123-4567</a></li>
                         <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Wellness St, Health City</a></li>
                         <li><a href="#"><i class="fas fa-clock"></i> 24/7 Support Available</a></li>
-                        <li><a href="#"><i class="fas fa-lock"></i> HIPAA Compliant</a></li>
-                        <button id="contact-button">Contact here</button>
+                        <a href="contact.html" style="text-decoration: none;">
+                            <button id="contact-button"
+                                style="cursor: pointer; padding: 10px 20px; background: var(--gradient-primary); color: white; border: none; border-radius: 8px; font-weight: 600;">Contact
+                                here</button>
+                        </a>
                     </ul>
                 </div>
             </div>
