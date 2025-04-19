@@ -110,6 +110,13 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .page-title {
+            margin: 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
         .user-profile {
             display: flex;
             align-items: center;
@@ -1171,7 +1178,7 @@
 
             .welcome-banner {
                 padding: 1.8rem;
-                
+
             }
 
             .welcome-banner h1 {
@@ -1420,8 +1427,8 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;   
-            
+            overflow: hidden;
+
             height: 240px;
         }
 
@@ -1673,10 +1680,12 @@
     <!-- Side Navigation -->
     <nav class="side-nav collapsed">
         <div class="logo-container">
-            <div class="logo">MC</div>
-            <div class="logo-text">MindCare</div>
+            <img src="assets/images/logo.svg" alt="CogniCare" class="logo">
+            <div class="logo-text">CogniCare</div>
         </div>
-
+        <div class="page-title">
+            <h1 id="currentPageTitle">Dashboard</h1>
+        </div>
         <div class="user-profile">
             <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="user-avatar">
             <div class="user-info">
@@ -1699,7 +1708,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="C:\Users\suvam\Desktop\Hackathon\Hack4Bengal-4.0\health-tracker-new.html" class="nav-link">
                     <i class="fas fa-heartbeat"></i>
                     Health Tracker
                 </a>
@@ -1752,9 +1761,9 @@
             </button>
             <ul class="top-nav-links">
                 <li><a href="#" class="active">Home</a></li>
-                <li><a href="test.html">Tests</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Resources</a></li>
+                <li><a href="#assessments">Tests</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#resources">Resources</a></li>
             </ul>
             <div class="auth-buttons">
                 <a href="login.html" class="btn btn-login">Login</a>
@@ -1855,7 +1864,7 @@
             </div>
 
             <!-- Mental Health Assessments -->
-            <div class="assessment-section">
+            <div class="assessment-section" id="assessments">
                 <div class="section-header">
                     <h2 class="section-title">Mental Health Assessments</h2>
                     <button class="btn-view-all">
@@ -1927,7 +1936,7 @@
             </div>
 
             <!-- Blog Section -->
-            <div class="blog-section">
+            <div class="blog-section" id="blog">
                 <div class="section-header">
                     <h2 class="section-title">Latest Articles</h2>
                     <button class="btn-view-all">
@@ -1953,11 +1962,12 @@
                                 </div>
                                 <span>June 15, 2023</span>
                             </div>
-                            <button class="btn-read-more" onclick="window.location.href='https://medium.com/tag/anxiety'">Read More</button>
+                            <button class="btn-read-more"
+                                onclick="window.location.href='https://medium.com/tag/anxiety'">Read More</button>
                         </div>
                     </div>
-                    
-                    <div class="blog-card" >
+
+                    <div class="blog-card">
                         <div class="blog-image">
                             <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                                 alt="Sleep">
@@ -1976,11 +1986,13 @@
                                 </div>
                                 <span>June 8, 2023</span>
                             </div>
-                            <button class="btn-read-more" onclick="window.location.href='https://medium.com/@mina_5584/why-is-sleep-essential-for-your-mental-health-6369b95edc42'">Read More</button>
+                            <button class="btn-read-more"
+                                onclick="window.location.href='https://medium.com/@mina_5584/why-is-sleep-essential-for-your-mental-health-6369b95edc42'">Read
+                                More</button>
                         </div>
                     </div>
 
-                    <div class="blog-card" >
+                    <div class="blog-card">
                         <div class="blog-image">
                             <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                                 alt="Nutrition">
@@ -1998,14 +2010,16 @@
                                 </div>
                                 <span>June 1, 2023</span>
                             </div>
-                            <button class="btn-read-more" onclick="window.location.href='https://medium.com/@iqrasohail849/foods-for-better-mental-health-c9cf211f16b2'">Read More</button>
+                            <button class="btn-read-more"
+                                onclick="window.location.href='https://medium.com/@iqrasohail849/foods-for-better-mental-health-c9cf211f16b2'">Read
+                                More</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Online Consultation -->
-            <div class="consultation-section">
+            <div class="consultation-section" id="resources">
                 <div class="section-header">
                     <h2 class="section-title">Online Consultation</h2>
                 </div>
@@ -2250,14 +2264,14 @@
                 counter.textContent = '0';
 
                 const increment = target / steps;
-                
+
                 function animate() {
                     current += increment;
                     if (current > target) {
                         current = target;
                     }
                     counter.textContent = Math.round(current).toLocaleString();
-                    
+
                     if (current < target) {
                         setTimeout(animate, stepDuration);
                     }
@@ -2351,7 +2365,7 @@
                 {
                     title: "Depression Screening",
                     description: "Evaluate symptoms of depression with our clinically validated questionnaire and AI analysis.",
-                    image: "static/image/img1.jpg", 
+                    image: "static/image/img1.jpg",
                     tag: "Powered"
                 },
                 {
@@ -2396,7 +2410,7 @@
                 {
                     title: "ADHD",
                     description: "Attention and hyperactivity",
-                    image:"static/image/img2.jpg", // Updated image
+                    image: "static/image/img2.jpg", // Updated image
                     tag: "Powered"
                 },
                 {
@@ -2444,6 +2458,63 @@
 
             // Initial render
             renderAssessments(initialAssessments);
+
+            // Smooth scrolling for top navigation links
+            document.querySelectorAll('.top-nav-links a').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+
+                    if (targetId) {
+                        const targetSection = document.getElementById(targetId);
+                        if (targetSection) {
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+
+                            // Update active state
+                            document.querySelectorAll('.top-nav-links a').forEach(a => a.classList.remove('active'));
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
+
+            // Scroll spy to update active state based on scroll position
+            window.addEventListener('scroll', () => {
+                const sections = ['assessments', 'blog', 'resources'];
+                let currentSection = '';
+
+                sections.forEach(section => {
+                    const element = document.getElementById(section);
+                    if (element) {
+                        const rect = element.getBoundingClientRect();
+                        if (rect.top <= 100) {
+                            currentSection = section;
+                        }
+                    }
+                });
+
+                document.querySelectorAll('.top-nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Update page title when navigation links are clicked
+            function updatePageTitle(title) {
+                document.getElementById('currentPageTitle').textContent = title;
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    const title = this.textContent.trim();
+                    updatePageTitle(title);
+                });
+            });
         });
 
         function startTest(condition) {

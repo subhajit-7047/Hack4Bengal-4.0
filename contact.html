@@ -180,6 +180,7 @@
             color: var(--text);
             font-size: 0.9rem;
         }
+
         .heading {
             font-size: 2rem;
             font-weight: 600;
@@ -194,11 +195,20 @@
         }
 
         @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
-        #contact-button{
+
+        #contact-button {
             background: var(--gradient-primary);
             color: white;
             border: none;
