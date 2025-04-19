@@ -2,19 +2,26 @@ import streamlit as st
 import pandas as pd
 import joblib
 import io
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 import matplotlib.pyplot as plt
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 from sklearn.impute import SimpleImputer
 
-# Load model and features
+# Load model, features, label encoders, and scaler
 model = joblib.load("mental_health_model.pkl")
 features = joblib.load("features.pkl")
-label_encoders = joblib.load("label_encoders.pkl") # Load the saved encoders
+label_encoders = joblib.load("label_encoders.pkl")
+try:
+    scaler = joblib.load("feature_scaler.pkl")
+except FileNotFoundError:
+    scaler = None
+    st.warning("Feature scaler not found. Predictions might be affected.")
 
 diagnoses = ['Depression', 'Anxiety', 'OCD', 'PTSD', 'Bipolar', 'Insomnia', 'ADHD', 'Autism']
+numerical_cols = ['Age', 'Sleep_Hours', 'Attention_Span']
+categorical_cols_from_training = list(label_encoders.keys())
 
 # Page config
 st.set_page_config(page_title="Mental Health Predictor", page_icon="🧠", layout="centered")
@@ -110,17 +117,24 @@ if st.session_state['predict_clicked']:
     input_df = pd.DataFrame([input_data])
 
     # Explicitly convert numerical columns to numeric type
-    numerical_cols = ['Age', 'Sleep_Hours', 'Attention_Span']
     for col in numerical_cols:
         if col in input_df.columns:
             input_df[col] = pd.to_numeric(input_df[col], errors='coerce')
-            input_df.fillna(input_df.mean(numeric_only=True), inplace=True) # Handle potential NaNs after conversion
+            input_df.fillna(input_df[col].mean(), inplace=True) # Handle potential NaNs after conversion
 
-    # Handle missing values using SimpleImputer for other columns
-    imputer = SimpleImputer(strategy="most_frequent")
-    categorical_cols = [col for col in input_df.columns if col not in numerical_cols]
-    input_df[categorical_cols] = imputer.fit_transform(input_df[categorical_cols])
-    input_df = pd.DataFrame(input_df, columns=input_df.columns) # Recreate DataFrame after imputation
+    # Scale numerical features
+    if scaler is not None:
+        numerical_input = input_df[numerical_cols]
+        # Ensure all expected columns are present in the input
+        if all(col in numerical_input.columns for col in numerical_cols):
+            input_df[numerical_cols] = scaler.transform(numerical_input)
+        else:
+            st.error("Error: Not all numerical columns found for scaling.")
+
+    # Impute missing values using SimpleImputer for categorical columns
+    imputer_categorical = SimpleImputer(strategy="most_frequent")
+    categorical_input_df = input_df.drop(columns=numerical_cols, errors='ignore')
+    input_df[categorical_input_df.columns] = imputer_categorical.fit_transform(categorical_input_df)
 
     # Encode categorical features using the SAVED LabelEncoders
     for col in input_df.columns:

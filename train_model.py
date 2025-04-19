@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.multioutput import MultiOutputClassifier
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.impute import SimpleImputer
 import joblib
 
@@ -20,10 +20,14 @@ categorical_cols = ['Gender', 'Sadness_Level', 'Interest_Loss', 'Fatigue_Level',
                     'Flashbacks', 'Nightmares', 'Avoidance_Behavior', 'Manic_Episodes',
                     'Impulsivity', 'Hyperactivity', 'Task_Completion', 'Social_Communication',
                     'Eye_Contact', 'Special_Interests', 'Routine_Rigidity', 'Sensory_Issues']
+numerical_cols = ['Age', 'Attention_Span', 'Sleep_Hours'] # Identify numerical columns
 
-# Impute missing values BEFORE encoding
-imputer = SimpleImputer(strategy='most_frequent')
-df[categorical_cols] = imputer.fit_transform(df[categorical_cols])
+# Impute missing values BEFORE encoding and scaling
+imputer_categorical = SimpleImputer(strategy='most_frequent')
+df[categorical_cols] = imputer_categorical.fit_transform(df[categorical_cols])
+
+imputer_numerical = SimpleImputer(strategy='mean')
+df[numerical_cols] = imputer_numerical.fit_transform(df[numerical_cols])
 
 # Fit LabelEncoders and save them
 label_encoders = {}
@@ -32,6 +36,11 @@ for column in categorical_cols:
     df[column] = le.fit_transform(df[column])
     label_encoders[column] = le
 joblib.dump(label_encoders, 'label_encoders.pkl')
+
+# Scale numerical features and save the scaler
+scaler = StandardScaler()
+df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
+joblib.dump(scaler, 'feature_scaler.pkl')
 
 X = df.drop(columns=diagnoses)
 y = df[diagnoses]
