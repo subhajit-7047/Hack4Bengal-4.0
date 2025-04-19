@@ -11,10 +11,11 @@ df = pd.read_csv("mental_health_dataset.csv")
 # Define diagnosis columns
 diagnoses = ['Depression', 'Anxiety', 'OCD', 'PTSD', 'Bipolar', 'Insomnia', 'ADHD', 'Autism']
 
-# Drop ID column
-df.drop(columns=['ID'], inplace=True)
+# Drop ID column if exists
+if 'ID' in df.columns:
+    df.drop(columns=['ID'], inplace=True)
 
-# Encode categorical features
+# Encode categorical columns
 label_cols = ['Gender', 'Sadness_Level', 'Interest_Loss', 'Fatigue_Level', 'Mood_Swings',
               'Guilt_or_Worthlessness', 'Worry_Level', 'Restlessness', 'Panic_Attacks',
               'Concentration_Difficulty', 'Obsessions', 'Compulsions', 'Trauma_History',
@@ -29,15 +30,17 @@ for col in label_cols:
 X = df.drop(columns=diagnoses)
 y = df[diagnoses]
 
-# Split
+# Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train model
-model = MultiOutputClassifier(RandomForestClassifier())
+# Train the model using MultiOutputClassifier
+model = MultiOutputClassifier(
+    RandomForestClassifier(n_jobs=1, monotonic_cst=None)  # Explicitly set to None
+)
 model.fit(X_train, y_train)
 
-# Save the model and features
+# Save the model and features list
 joblib.dump(model, 'mental_health_model.pkl')
 joblib.dump(X.columns.tolist(), 'features.pkl')
 
-print("✅ Model trained and saved.")
+print("✅ Model trained and saved successfully.")
