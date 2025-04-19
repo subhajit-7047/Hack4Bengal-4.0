@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f9f9f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #4f6af1, #41c7af);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient 8s ease infinite;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .section-subtext {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s, box-shadow 0.4s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(79,106,241,0.15);
+        }
+
+        .image-frame {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            padding: 8px;
+            background: linear-gradient(45deg, #4f6af1, #41c7af);
+            position: relative;
+            transition: transform 0.4s;
+        }
+
+        .member-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+        }
+
+        .member-card:hover .image-frame {
+            transform: rotate(8deg) scale(1.05);
+        }
+
+        .member-name {
+            color: #333;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .member-role {
+            color: #4f6af1;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .member-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .member-card:hover .social-links {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .social-link {
+            color: #4f6af1;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(79,106,241,0.1);
+        }
+
+        .social-link:hover {
+            background: #4f6af1;
+            color: white;
+            transform: scale(1.15);
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 3rem 1.5rem; }
+            
+            .gradient-text {
+                font-size: 2.2rem;
+            }
+            
+            .section-subtext {
+                font-size: 1rem;
+            }
+            
+            .team-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Decorative elements */
+        .member-card::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(79,106,241,0.05));
+            transform: rotate(45deg);
+            transition: all 0.4s;
+            z-index: 0;
+        }
+
+        .member-card:hover::after {
+            bottom: -30%;
+            left: -30%;
+        }
+    </style>
+</head>
+<body>
+    <div class="section-header">
+        <h1 class="gradient-text">About Us</h1>
+        <p class="section-subtext">Duis aute irure dolor in reprehenderit in voluptate<br>
+        velit esse cillum dolore eu fugiat nulla pariatur.<br>
+        Excepteur sint occaecat cupidatat non proident,</p>
+    </div>
+
+    <div class="team-container">
+        <!-- Team Member 1 -->
+        <div class="member-card">
+            <div class="image-frame">
+                <img src="https://via.placeholder.com/200" alt="Team Member" class="member-image">
+            </div>
+            <h2 class="member-name">John Carter</h2>
+            <p class="member-role">CEO & Founder</p>
+            <p class="member-desc">Visionary leader with 15+ years experience in digital innovation and team management.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="member-card">
+            <div class="image-frame">
+                <img src="https://via.placeholder.com/200" alt="Team Member" class="member-image">
+            </div>
+            <h2 class="member-name">Sophia Miller</h2>
+            <p class="member-role">Creative Director</p>
+            <p class="member-desc">Award-winning designer specializing in brand strategy and user experience.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-dribbble"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-behance"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

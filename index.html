@@ -1709,6 +1709,208 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Blog Slider Styles */
+        .blog-slider {
+            position: relative;
+            overflow: hidden;
+            padding: 0 40px;
+            margin: 2rem 0;
+        }
+
+        .blog-cards {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        .blog-card {
+            min-width: calc(33.333% - 1.5rem);
+            flex: 0 0 calc(33.333% - 1.5rem);
+            transform: scale(0.95);
+            opacity: 0.6;
+            filter: blur(2px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .blog-card.active {
+            transform: scale(1);
+            opacity: 1;
+            filter: blur(0);
+            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.2);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        .slider-nav:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .slider-nav.prev {
+            left: 0;
+        }
+
+        .slider-nav.next {
+            right: 0;
+        }
+
+        .slider-nav:disabled {
+            background: var(--gradient-frost);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(108, 92, 231, 0.2);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dot.active {
+            width: 30px;
+            border-radius: 5px;
+            background: var(--gradient-primary);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-100px) scale(0.9);
+            }
+        }
+
+        /* Enhanced Blog Slider Styles */
+        .blog-slider {
+            position: relative;
+            overflow: hidden;
+            padding: 0 40px;
+            margin: 2rem 0;
+        }
+
+        .blog-cards {
+            display: flex;
+            gap: 2rem;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .blog-card {
+            min-width: calc(33.333% - 1.5rem);
+            flex: 0 0 calc(33.333% - 1.5rem);
+            opacity: 0.6;
+            filter: blur(2px);
+            transform: scale(0.95);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .blog-card.active {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1);
+        }
+
+        /* Enhanced Slider Navigation */
+        .slider-nav {
+            opacity: 0.7;
+            transform: translateY(-50%) scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .slider-nav:hover {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        /* Smooth Dot Transitions */
+        .dot {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dot.active {
+            width: 30px;
+            background: var(--gradient-primary);
+        }
+
+        /* Live Sliding Animation */
+        @keyframes slideNext {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slidePrev {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-enter {
+            animation: slideNext 0.6s forwards;
+        }
+
+        .slide-enter-back {
+            animation: slidePrev 0.6s forwards;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -1991,81 +2193,130 @@
             <div class="blog-section" id="blog">
                 <div class="section-header">
                     <h2 class="section-title">Latest Articles</h2>
-                    <!-- <button class="btn-view-all">
-                        View All <i class="fas fa-chevron-right"></i>
-                    </button> -->
                 </div>
-                <div class="blog-cards">
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                                alt="Mindfulness">
-                            <span class="blog-category">Mindfulness</span>
-                        </div>
-                        <div class="blog-content">
-                            <h3 class="blog-title">5 Mindfulness Techniques to Reduce Anxiety</h3>
-                            <p class="blog-excerpt">Discover simple yet powerful mindfulness exercises that can help
-                                calm your mind and reduce anxiety symptoms in just minutes a day. Our AI analysis shows
-                                these techniques can reduce stress by up to 40%.</p>
-                            <div class="blog-meta">
-                                <div class="blog-author">
-                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Dr. Emily Chen">
-                                    <span>Dr. Emily Chen</span>
-                                </div>
-                                <span>June 15, 2023</span>
+                <div class="blog-slider">
+                    <button class="slider-nav prev" id="prevSlide">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-nav next" id="nextSlide">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="blog-cards">
+                        <div class="blog-card active">
+                            <div class="blog-image">
+                                <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mindfulness">
+                                <span class="blog-category">Mindfulness</span>
                             </div>
-                            <button class="btn-read-more"
-                                onclick="window.location.href='https://medium.com/tag/anxiety'">Read More</button>
+                            <div class="blog-content">
+                                <h3 class="blog-title">5 Mindfulness Techniques to Reduce Anxiety</h3>
+                                <p class="blog-excerpt">Discover simple yet powerful mindfulness exercises that can help calm your mind and reduce anxiety symptoms in just minutes a day.</p>
+                                <div class="blog-meta">
+                                    <div class="blog-author">
+                                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Dr. Emily Chen">
+                                        <span>Dr. Emily Chen</span>
+                                    </div>
+                                    <span>June 15, 2023</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Sleep">
+                                <span class="blog-category">Sleep Health</span>
+                            </div>
+                            <div class="blog-content">
+                                <h3 class="blog-title">The Connection Between Sleep and Mental Health</h3>
+                                <p class="blog-excerpt">Learn how quality sleep affects your emotional well-being and practical tips for improving your sleep hygiene.</p>
+                                <div class="blog-meta">
+                                    <div class="blog-author">
+                                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Dr. Michael Rodriguez">
+                                        <span>Dr. Michael Rodriguez</span>
+                                    </div>
+                                    <span>June 8, 2023</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Nutrition">
+                                <span class="blog-category">Nutrition</span>
+                            </div>
+                            <div class="blog-content">
+                                <h3 class="blog-title">Nutrition's Impact on Mental Well-being</h3>
+                                <p class="blog-excerpt">Explore the fascinating connection between diet and mental health, with evidence-based nutrition strategies for better mood.</p>
+                                <div class="blog-meta">
+                                    <div class="blog-author">
+                                        <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Dr. Sarah Wilson">
+                                        <span>Dr. Sarah Wilson</span>
+                                    </div>
+                                    <span>June 1, 2023</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Exercise">
+                                <span class="blog-category">Exercise</span>
+                            </div>
+                            <div class="blog-content">
+                                <h3 class="blog-title">Exercise as Mental Health Medicine</h3>
+                                <p class="blog-excerpt">Discover how physical activity can be a powerful tool for managing depression, anxiety, and overall mental wellness.</p>
+                                <div class="blog-meta">
+                                    <div class="blog-author">
+                                        <img src="https://randomuser.me/api/portraits/men/36.jpg" alt="Dr. James Lee">
+                                        <span>Dr. James Lee</span>
+                                    </div>
+                                    <span>May 25, 2023</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644" alt="Meditation">
+                                <span class="blog-category">Meditation</span>
+                            </div>
+                            <div class="blog-content">
+                                <h3 class="blog-title">Daily Meditation for Mental Clarity</h3>
+                                <p class="blog-excerpt">Learn simple meditation techniques that can help improve focus, reduce stress, and enhance overall mental wellbeing.</p>
+                                <div class="blog-meta">
+                                    <div class="blog-author">
+                                        <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Dr. Lisa Wang">
+                                        <span>Dr. Lisa Wang</span>
+                                    </div>
+                                    <span>May 20, 2023</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="blog-card">
+                            <div class="blog-image">
+                                <img src="https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f" alt="Work-Life Balance">
+                                <span class="blog-category">Lifestyle</span>
+                            </div>
+                            <div class="blog-content">
+                                <h3 class="blog-title">Achieving Work-Life Balance</h3>
+                                <p class="blog-excerpt">Practical strategies for maintaining mental health while managing professional and personal life demands.</p>
+                                <div class="blog-meta">
+                                    <div class="blog-author">
+                                        <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="Dr. Alex Thompson">
+                                        <span>Dr. Alex Thompson</span>
+                                    </div>
+                                    <span>May 15, 2023</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                                alt="Sleep">
-                            <span class="blog-category">Sleep Health</span>
-                        </div>
-                        <div class="blog-content">
-                            <h3 class="blog-title">The Connection Between Sleep and Mental Health</h3>
-                            <p class="blog-excerpt">Learn how quality sleep affects your emotional well-being and
-                                practical tips for improving your sleep hygiene for better mental health. Our data shows
-                                patients with good sleep score 25% higher on mental wellness scales.</p>
-                            <div class="blog-meta">
-                                <div class="blog-author">
-                                    <img src="https://randomuser.me/api/portraits/men/45.jpg"
-                                        alt="Dr. Michael Rodriguez">
-                                    <span>Dr. Michael Rodriguez</span>
-                                </div>
-                                <span>June 8, 2023</span>
-                            </div>
-                            <button class="btn-read-more"
-                                onclick="window.location.href='https://medium.com/@mina_5584/why-is-sleep-essential-for-your-mental-health-6369b95edc42'">Read
-                                More</button>
-                        </div>
-                    </div>
-
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                                alt="Nutrition">
-                            <span class="blog-category">Nutrition</span>
-                        </div>
-                        <div class="blog-content">
-                            <h3 class="blog-title">Nutrition for Mental Wellbeing: Foods That Help</h3>
-                            <p class="blog-excerpt">Explore the link between diet and mental health, and discover which
-                                foods can boost your mood and cognitive function naturally. Our AI nutritionist has
-                                identified 12 key foods that improve mental health markers by 30%.</p>
-                            <div class="blog-meta">
-                                <div class="blog-author">
-                                    <img src="https://randomuser.me/api/portraits/women/51.jpg" alt="Dr. Sarah Johnson">
-                                    <span>Dr. Sarah Johnson</span>
-                                </div>
-                                <span>June 1, 2023</span>
-                            </div>
-                            <button class="btn-read-more"
-                                onclick="window.location.href='https://medium.com/@iqrasohail849/foods-for-better-mental-health-c9cf211f16b2'">Read
-                                More</button>
-                        </div>
+                    <div class="slider-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
                     </div>
                 </div>
             </div>
@@ -2576,6 +2827,122 @@
                     updatePageTitle(title);
                 });
             });
+
+            // Blog Slider functionality
+            const blogSlider = {
+                currentSlide: 0,
+                sliding: false,
+                autoSlideTimer: null,
+
+                init() {
+                    this.container = document.querySelector('.blog-cards');
+                    this.cards = document.querySelectorAll('.blog-card');
+                    this.dots = document.querySelectorAll('.dot');
+                    this.slideCount = this.cards.length;
+                    
+                    // Navigation buttons
+                    document.getElementById('prevSlide')?.addEventListener('click', () => this.slide('prev'));
+                    document.getElementById('nextSlide')?.addEventListener('click', () => this.slide('next'));
+                    
+                    // Dot navigation
+                    this.dots.forEach((dot, index) => {
+                        dot.addEventListener('click', () => {
+                            this.pauseAutoSlide();
+                            this.goToSlide(index);
+                            this.startAutoSlide();
+                        });
+                    });
+                    
+                    // Touch support
+                    let touchStartX = 0;
+                    this.container.addEventListener('touchstart', (e) => {
+                        touchStartX = e.changedTouches[0].screenX;
+                        this.pauseAutoSlide();
+                    });
+                    
+                    this.container.addEventListener('touchend', (e) => {
+                        const touchEndX = e.changedTouches[0].screenX;
+                        const diff = touchStartX - touchEndX;
+                        
+                        if (Math.abs(diff) > 50) {
+                            this.slide(diff > 0 ? 'next' : 'prev');
+                        }
+                        this.startAutoSlide();
+                    });
+
+                    // Pause on hover
+                    this.container.addEventListener('mouseenter', () => this.pauseAutoSlide());
+                    this.container.addEventListener('mouseleave', () => this.startAutoSlide());
+
+                    // Start auto sliding
+                    this.startAutoSlide();
+                    this.updateActiveStates();
+                },
+
+                startAutoSlide() {
+                    this.pauseAutoSlide();
+                    this.autoSlideTimer = setInterval(() => this.slide('next'), 5000);
+                },
+
+                pauseAutoSlide() {
+                    if (this.autoSlideTimer) {
+                        clearInterval(this.autoSlideTimer);
+                        this.autoSlideTimer = null;
+                    }
+                },
+
+                goToSlide(index) {
+                    if (index === this.currentSlide || this.sliding) return;
+                    this.currentSlide = index;
+                    this.updateSlidePosition();
+                },
+
+                slide(direction) {
+                    if (this.sliding) return;
+                    this.sliding = true;
+
+                    if (direction === 'next') {
+                        this.currentSlide = (this.currentSlide + 1) % this.slideCount;
+                    } else {
+                        this.currentSlide = (this.currentSlide - 1 + this.slideCount) % this.slideCount;
+                    }
+
+                    this.updateSlidePosition();
+                },
+
+                updateSlidePosition() {
+                    const cardWidth = this.cards[0].offsetWidth + 32; // Including gap
+                    const newTransform = -(this.currentSlide * cardWidth);
+                    
+                    this.container.style.transform = `translateX(${newTransform}px)`;
+                    this.updateActiveStates();
+
+                    setTimeout(() => {
+                        this.sliding = false;
+                    }, 600);
+                },
+
+                updateActiveStates() {
+                    this.cards.forEach((card, index) => {
+                        if (index === this.currentSlide) {
+                            card.classList.add('active');
+                        } else {
+                            card.classList.remove('active');
+                        }
+                    });
+
+                    this.dots.forEach((dot, index) => {
+                        if (index === this.currentSlide) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                }
+            };
+
+            // Initialize the slider
+            blogSlider.init();
         });
 
         function startTest(condition) {
