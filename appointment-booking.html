@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Doctor Consultation | HealthCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C5CE7;
+            --secondary: #00CEC9;
+            --accent: #FF7675;
+            --background: #F8F9FA;
+            --text: #2D3436;
+            --gradient: linear-gradient(135deg, #6C5CE7 0%, #00CEC9 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+        }
+
+        /* Consultation Header */
+        .consultation-header {
+            background: var(--gradient);
+            padding: 2rem;
+            color: white;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 30px rgba(108, 92, 231, 0.2);
+            animation: headerSlide 1s ease;
+        }
+
+        @keyframes headerSlide {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            min-width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .department-filter {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .department-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .department-btn.active {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Doctors Grid */
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .doctor-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.2);
+            border-image: var(--gradient) 1;
+        }
+
+        .doctor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(108, 92, 231, 0.1),
+                transparent
+            );
+            transition: 0.6s;
+        }
+
+        .doctor-card:hover::before {
+            left: 100%;
+        }
+
+        .doctor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #FFD700;
+            margin: 0.5rem 0;
+        }
+
+        .specialization {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .availability {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            color: var(--primary);
+        }
+
+        /* Booking Modal */
+        .booking-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            transform: translateY(-50px);
+            opacity: 0;
+            animation: modalEnter 0.4s ease forwards;
+        }
+
+        @keyframes modalEnter {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .time-slot {
+            padding: 0.8rem;
+            border: 2px solid rgba(108, 92, 231, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-slot.selected {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 350px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: chatEnter 0.3s ease forwards;
+            display: none;
+            z-index: 1000;
+        }
+
+        @keyframes chatEnter {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .chat-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .message {
+            margin: 0.5rem 0;
+            padding: 0.8rem;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: messageEnter 0.3s ease;
+            position: relative;
+        }
+
+        .user-message {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+        }
+
+        .doctor-message {
+            background: #F1F1F1;
+            margin-right: auto;
+        }
+
+        @keyframes messageEnter {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .doctors-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .doctor-card {
+                padding: 1rem;
+            }
+
+            .chat-container {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Consultation Header -->
+    <div class="consultation-header">
+        <h1>Book Online Consultation</h1>
+        <div class="filter-section">
+            <input type="text" class="search-input" placeholder="Search doctors...">
+            <select class="search-input">
+                <option value="">Select Date</option>
+                <option>Today</option>
+                <option>Tomorrow</option>
+                <option>This Week</option>
+            </select>
+            <select class="search-input">
+                <option value="">Filter by Rating</option>
+                <option>4+ Stars</option>
+                <option>3+ Stars</option>
+            </select>
+        </div>
+        <div class="department-filter">
+            <button class="department-btn active">All</button>
+            <button class="department-btn">Cardiology</button>
+            <button class="department-btn">Neurology</button>
+            <button class="department-btn">Pediatrics</button>
+        </div>
+    </div>
+
+    <!-- Doctors Grid -->
+    <div class="doctors-grid">
+        <!-- Doctor Card 1 -->
+        <div class="doctor-card" onclick="showBookingModal()">
+            <img src="doctor1.jpg" alt="Dr. Sarah" class="doctor-avatar">
+            <h3>Dr. Sarah Johnson</h3>
+            <div class="rating">
+                <i class="fas fa-star"></i>
+                <span>4.9 (235 reviews)</span>
+            </div>
+            <span class="specialization">Cardiologist</span>
+            <div class="availability">
+                <span>Available Today</span>
+                <span>$150/session</span>
+            </div>
+        </div>
+
+        <!-- Add more doctor cards here -->
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="modal-content">
+            <h2>Book Appointment</h2>
+            <div class="time-slots">
+                <div class="time-slot">9:00 AM</div>
+                <div class="time-slot">10:00 AM</div>
+                <div class="time-slot">11:00 AM</div>
+                <!-- Add more time slots -->
+            </div>
+            <button class="start-chat-btn" onclick="startChat()">
+                Confirm Booking <i class="fas fa-comment-medical"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <h3>Live Consultation</h3>
+            <button class="close-chat" onclick="closeChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message...">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Show Booking Modal
+        function showBookingModal() {
+            document.getElementById('bookingModal').style.display = 'flex';
+        }
+
+        // Close Modal
+        window.onclick = function(event) {
+            const modal = document.getElementById('bookingModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Time Slot Selection
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', function() {
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Chat Functions
+        function startChat() {
+            document.getElementById('bookingModal').style.display = 'none';
+            document.getElementById('chatContainer').style.display = 'block';
+            addMessage('doctor', "Welcome! How can I help you today?");
+        }
+
+        function closeChat() {
+            document.getElementById('chatContainer').style.display = 'none';
+        }
+
+        function addMessage(sender, text) {
+            const messages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.querySelector('.chat-input input');
+            if (input.value.trim()) {
+                addMessage('user', input.value);
+                // Simulate doctor response
+                setTimeout(() => {
+                    addMessage('doctor', "Thank you for sharing. Let me review your case...");
+                }, 1000);
+                input.value = '';
+            }
+        }
+
+        // Department Filter
+        document.querySelectorAll('.department-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.department-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                filterDoctors(this.textContent);
+            });
+        });
+
+        function filterDoctors(department) {
+            // Add filtering logic here
+        }
+    </script>
+</body>
+</html>
