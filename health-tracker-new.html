@@ -158,7 +158,7 @@
             .chart-section {
                 grid-template-columns: 1fr;
             }
-            
+
             .header-title {
                 font-size: 2rem;
             }
@@ -183,6 +183,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="parallax-container">
         <div class="parallax-header">
@@ -378,7 +379,7 @@
                 timeFilterButtons.forEach(btn => btn.classList.remove('active'));
                 // Add active class to clicked button
                 button.classList.add('active');
-                
+
                 // Update charts based on selected time period
                 updateCharts(button.textContent.toLowerCase());
             });
@@ -394,16 +395,16 @@
                     activity: [75, 85, 90, 88, 92, 85, 95]
                 },
                 month: {
-                    mood: Array.from({length: 30}, () => Math.floor(Math.random() * 4) + 6),
-                    sleep: Array.from({length: 30}, () => Math.floor(Math.random() * 3) + 6),
-                    anxiety: Array.from({length: 30}, () => Math.floor(Math.random() * 5) + 1),
-                    activity: Array.from({length: 30}, () => Math.floor(Math.random() * 30) + 70)
+                    mood: Array.from({ length: 30 }, () => Math.floor(Math.random() * 4) + 6),
+                    sleep: Array.from({ length: 30 }, () => Math.floor(Math.random() * 3) + 6),
+                    anxiety: Array.from({ length: 30 }, () => Math.floor(Math.random() * 5) + 1),
+                    activity: Array.from({ length: 30 }, () => Math.floor(Math.random() * 30) + 70)
                 },
                 year: {
-                    mood: Array.from({length: 12}, () => Math.floor(Math.random() * 4) + 6),
-                    sleep: Array.from({length: 12}, () => Math.floor(Math.random() * 3) + 6),
-                    anxiety: Array.from({length: 12}, () => Math.floor(Math.random() * 5) + 1),
-                    activity: Array.from({length: 12}, () => Math.floor(Math.random() * 30) + 70)
+                    mood: Array.from({ length: 12 }, () => Math.floor(Math.random() * 4) + 6),
+                    sleep: Array.from({ length: 12 }, () => Math.floor(Math.random() * 3) + 6),
+                    anxiety: Array.from({ length: 12 }, () => Math.floor(Math.random() * 5) + 1),
+                    activity: Array.from({ length: 12 }, () => Math.floor(Math.random() * 30) + 70)
                 }
             };
 
@@ -429,7 +430,7 @@
             const scrolled = window.pageYOffset;
             const parallaxBg = document.querySelector('.parallax-bg');
             const headerContent = document.querySelector('.header-content');
-            
+
             parallaxBg.style.transform = `translateZ(-8px) scale(2) translateY(${scrolled * 0.5}px)`;
             headerContent.style.transform = `translateZ(-4px) scale(1.5) translateY(${scrolled * 0.3}px)`;
         });
@@ -445,4 +446,5 @@
         });
     </script>
 </body>
+
 </html>
