@@ -772,7 +772,7 @@
         }
 
         .blog-card {
-            background: var(--light);
+            background: var (--light);;
             border-radius: 16px;
             overflow: hidden;
             transition: all 0.4s ease;
@@ -1805,7 +1805,7 @@
         .dot.active {
             width: 30px;
             border-radius: 5px;
-            background: var(--gradient-primary);
+            background: var(--gradient-primary);;
         }
 
         @keyframes slideIn {
@@ -2145,7 +2145,7 @@
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="top-nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="test.html">Tests</a></li>
                 <li><a href="health-tracker-new.html">Health Tracker</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -2172,7 +2172,7 @@
                     <i class="fas fa-bolt floating-icon"
                         style="top: 75%; left: 80%; font-size: 2.2rem; animation-delay: 8s;"></i>
                 </div>
-                <h1>Welcome Back, Sarah!</h1>
+                <h1>Welcome in CogniCare!!</h1>
                 <p>Track your mental health, take assessments, and connect with professionals - all in one place.</p>
             </div>
 
@@ -3028,46 +3028,55 @@
 
             // Smooth scrolling for top navigation links
             document.querySelectorAll('.top-nav-links a').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-
-                    if (targetId) {
-                        const targetSection = document.getElementById(targetId);
-                        if (targetSection) {
-                            targetSection.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-
-                            // Update active state
-                            document.querySelectorAll('.top-nav-links a').forEach(a => a.classList.remove('active'));
-                            this.classList.add('active');
-                        }
-                    }
+    link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        
+        // Only handle anchor links on the same page
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const targetSection = document.querySelector(href);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
-            });
+            }
+        }
+        // Allow default behavior for external page links
+    });
+});
 
-            // Scroll spy to update active state based on scroll position
-            window.addEventListener('scroll', () => {
-                const sections = ['assessments', 'blog', 'resources'];
-                let currentSection = '';
+           // This code should remain (with slight modification)
+document.querySelectorAll('.top-nav-links a').forEach(link => {
+    // Check if current page matches the link
+    if (window.location.pathname.includes(link.getAttribute('href'))) {
+        link.classList.add('active');
+    }
+    
+    link.addEventListener('click', function(e) {
+        // Remove active class from all links
+        document.querySelectorAll('.top-nav-links a').forEach(a => {
+            a.classList.remove('active');
+        });
+        // Add active class to clicked link
+        this.classList.add('active');
+    });
+});
 
-                sections.forEach(section => {
-                    const element = document.getElementById(section);
-                    if (element) {
-                        const rect = element.getBoundingClientRect();
-                        if (rect.top <= 100) {
-                            currentSection = section;
-                        }
-                    }
-                });
-
-                document.querySelectorAll('.top-nav-links a').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${currentSection}`) {
-                        link.classList.add('active');
-                    }
+            // Add this after the scroll spy code
+            document.querySelectorAll('.top-nav-links a').forEach(link => {
+                // Check if current page matches the link
+                if (window.location.pathname.includes(link.getAttribute('href'))) {
+                    link.classList.add('active');
+                }
+                
+                link.addEventListener('click', function(e) {
+                    // Remove active class from all links
+                    document.querySelectorAll('.top-nav-links a').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    // Add active class to clicked link
+                    this.classList.add('active');
                 });
             });
 
@@ -3240,6 +3249,52 @@
                 });
             });
         });
+
+        // Fix for navigation buttons
+       document.querySelectorAll('.top-nav-links a').forEach(link => {
+    link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        
+        // Only handle anchor links on the same page
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const targetSection = document.querySelector(href);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+            
+            // Update active state
+            document.querySelectorAll('.top-nav-links a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+        }
+        // Allow default behavior for external links
+    });
+});
+document.querySelectorAll('.top-nav-links a').forEach(link => {
+    link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        
+        // Only handle anchor links on the same page
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const targetSection = document.querySelector(href);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+            
+            // Update active state
+            document.querySelectorAll('.top-nav-links a').forEach(a => a.classList.remove('active'));
+            this.classList.add('active');
+        }
+        // Allow default behavior for external links
+    });
+});
     </script>
 </body>
 
