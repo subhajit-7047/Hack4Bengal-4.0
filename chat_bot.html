@@ -291,25 +291,61 @@
                 }
             ];
 
-            // Suggested Questions
+            // Suggested Questions with Predefined Answers
             const suggestedQuestions = [
-                "What are depression symptoms?",
-                "How to manage anxiety?",
-                "Tell me about OCD",
-                "Start Mental Health Assessment"
+                {
+                    question: "What are depression symptoms?",
+                    answer: "Common symptoms of depression include:\n• Persistent sadness\n• Loss of interest in activities\n• Changes in sleep patterns\n• Fatigue\n• Difficulty concentrating\n• Feelings of worthlessness\n• Changes in appetite\n• Thoughts of death or suicide"
+                },
+                {
+                    question: "How to manage anxiety?",
+                    answer: "Here are some ways to manage anxiety:\n• Practice deep breathing exercises\n• Try meditation or mindfulness\n• Exercise regularly\n• Get enough sleep\n• Limit caffeine and alcohol\n• Consider therapy or counseling\n• Stay connected with supportive people"
+                },
+                {
+                    question: "Tell me about OCD",
+                    answer: "OCD (Obsessive-Compulsive Disorder) is a mental health condition characterized by:\n• Unwanted recurring thoughts (obsessions)\n• Repetitive behaviors (compulsions)\n• Need for order and symmetry\n• Fear of contamination\n• Intrusive thoughts\n\nTreatment options include therapy (particularly ERP), medication, and support groups."
+                },
+                {
+                    question: "What is PTSD?",
+                    answer: "PTSD (Post-Traumatic Stress Disorder) is a condition that can develop after experiencing trauma. Common signs include:\n• Flashbacks\n• Nightmares\n• Severe anxiety\n• Uncontrollable thoughts about the event\n• Avoiding situations that remind of trauma\n• Changes in emotional reactions"
+                },
+                {
+                    question: "How to improve sleep?",
+                    answer: "Tips for better sleep:\n• Maintain a regular sleep schedule\n• Create a relaxing bedtime routine\n• Avoid screens before bed\n• Keep your bedroom cool and dark\n• Limit caffeine and alcohol\n• Exercise regularly (but not close to bedtime)\n• Practice relaxation techniques"
+                },
+                {
+                    question: "Dealing with panic attacks?",
+                    answer: "During a panic attack:\n• Focus on your breathing - take slow, deep breaths\n• Ground yourself using the 5-4-3-2-1 method\n• Remind yourself it will pass\n• Find a quiet place if possible\n• Count backwards from 100\n• Call a trusted person\n\nLong-term management:\n• Seek professional help\n• Learn your triggers\n• Practice relaxation techniques"
+                },
+                {
+                    question: "Signs of burnout?",
+                    answer: "Common signs of burnout include:\n• Emotional exhaustion\n• Physical fatigue\n• Feeling detached or cynical\n• Reduced performance\n• Difficulty concentrating\n• Changes in sleep patterns\n• Loss of motivation\n• Physical symptoms like headaches"
+                },
+                {
+                    question: "Self-care techniques?",
+                    answer: "Essential self-care practices:\n• Regular exercise\n• Healthy eating habits\n• Adequate sleep\n• Mindfulness or meditation\n• Setting boundaries\n• Taking breaks\n• Engaging in hobbies\n• Connecting with loved ones\n• Spending time in nature"
+                },
+                {
+                    question: "Start Mental Health Assessment",
+                    answer: null
+                }
             ];
 
-            // Initialize Chat
             function showSuggestedQuestions() {
                 const container = document.createElement('div');
                 container.className = 'suggested-questions';
-                suggestedQuestions.forEach(question => {
+                suggestedQuestions.forEach(item => {
                     const q = document.createElement('div');
                     q.className = 'suggested-question';
-                    q.textContent = question;
+                    q.textContent = item.question;
                     q.addEventListener('click', () => {
-                        userInput.value = question;
-                        sendMessage();
+                        addUserMessage(item.question);
+                        if (item.answer) {
+                            addBotMessage(item.answer);
+                            setTimeout(showSuggestedQuestions, 500);
+                        } else {
+                            startAssessment();
+                        }
                     });
                     container.appendChild(q);
                 });

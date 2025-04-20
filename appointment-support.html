@@ -264,6 +264,8 @@
             border-left: 4px solid var(--success);
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
 
         .doctor-card:hover {
@@ -301,6 +303,141 @@
             border-top: 1px dashed rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
+        }
+
+        .map-preview {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease-in-out;
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .map-preview.active {
+            height: 200px;
+        }
+
+        .booking-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .booking-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .booking-modal {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .booking-overlay.active .booking-modal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .booking-success {
+            background: var(--success);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+            animation: slideUp 0.3s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .time-slot {
+            padding: 8px;
+            border: 2px solid var(--accent);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .time-slot:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .time-slot.selected {
+            background: var(--accent);
+            color: white;
+            transform: scale(0.95);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: all 0.2s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .map-toggle {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .map-toggle:hover {
+            background: var(--accent);
+            color: white;
         }
 
         .emergency-section {
@@ -623,38 +760,42 @@
                 {
                     name: "Dr. Sarah Johnson",
                     specialty: "Clinical Psychologist",
-                    address: "123 Wellness St, Suite 200",
-                    phone: "(555) 123-4567",
-                    distance: "0.8 miles away",
+                    address: "Block A, Kalyani Main Road, Kalyani, West Bengal 741235",
+                    phone: "(033) 2582-1234",
+                    distance: "0.8 km away",
                     acceptsNewPatients: true,
-                    rating: 4.8
+                    rating: 4.8,
+                    coordinates: "22.9751,88.4345"
                 },
                 {
-                    name: "Dr. Michael Chen",
+                    name: "Dr. Priya Banerjee",
                     specialty: "Psychiatrist",
-                    address: "456 Mindful Ave",
-                    phone: "(555) 987-6543",
-                    distance: "1.5 miles away",
+                    address: "Near Kalyani University, B-12 Central Park, Kalyani, West Bengal 741235",
+                    phone: "(033) 2582-5678",
+                    distance: "1.5 km away",
                     acceptsNewPatients: true,
-                    rating: 4.6
+                    rating: 4.6,
+                    coordinates: "22.9747,88.4344"
                 },
                 {
-                    name: "Dr. Emily Rodriguez, LCSW",
+                    name: "Dr. Rajesh Kumar, LCSW",
                     specialty: "Licensed Clinical Social Worker",
-                    address: "789 Harmony Blvd",
-                    phone: "(555) 456-7890",
-                    distance: "2.1 miles away",
+                    address: "Kalyani Stadium Complex, Block B, Kalyani, West Bengal 741235",
+                    phone: "(033) 2582-9012",
+                    distance: "2.1 km away",
                     acceptsNewPatients: false,
-                    rating: 4.9
+                    rating: 4.9,
+                    coordinates: "22.9752,88.4341"
                 },
                 {
-                    name: "Dr. James Wilson",
+                    name: "Dr. Amit Roy",
                     specialty: "Counseling Psychologist",
-                    address: "321 Balance Lane",
-                    phone: "(555) 234-5678",
-                    distance: "3.0 miles away",
+                    address: "Near City Center, A-7 Gandhi Road, Kalyani, West Bengal 741235",
+                    phone: "(033) 2582-3456",
+                    distance: "3.0 km away",
                     acceptsNewPatients: true,
-                    rating: 4.7
+                    rating: 4.7,
+                    coordinates: "22.9749,88.4348"
                 }
             ];
 
@@ -839,10 +980,77 @@
                         </div>
                     `;
 
+                    const mapToggle = document.createElement('button');
+                    mapToggle.className = 'map-toggle';
+                    mapToggle.innerHTML = '<i class="fas fa-map-marked-alt"></i> Show on Map';
+                    mapToggle.addEventListener('click', () => {
+                        const mapPreview = doctorCard.querySelector('.map-preview');
+                        mapPreview.classList.toggle('active');
+                    });
+                    doctorCard.appendChild(mapToggle);
+
+                    const mapDiv = document.createElement('div');
+                    mapDiv.className = 'map-preview';
+                    mapDiv.id = `map-${doctor.name.replace(/\s+/g, '-')}`;
+                    doctorCard.appendChild(mapDiv);
+
+                    doctorCard.querySelector('.availability button').addEventListener('click', () => {
+                        showBookingModal(doctor);
+                    });
+
                     doctorList.appendChild(doctorCard);
                 });
             }
+
+            function initMap() {
+                sampleDoctors.forEach(doctor => {
+                    const mapDiv = document.getElementById(`map-${doctor.name.replace(/\s+/g, '-')}`);
+                    
+                    const map = new google.maps.Map(mapDiv, {
+                        center: { lat: -34.397, lng: 150.644 }, // Replace with actual coordinates
+                        zoom: 14
+                    });
+
+                    const marker = new google.maps.Marker({
+                        position: { lat: -34.397, lng: 150.644 }, // Replace with actual coordinates
+                        map: map,
+                        title: doctor.name
+                    });
+                });
+            }
+
+            // Booking modal functionality
+            function showBookingModal(doctor) {
+                const overlay = document.createElement('div');
+                overlay.className = 'booking-overlay';
+                overlay.innerHTML = `
+                    <div class="booking-modal">
+                        <button class="close-modal">&times;</button>
+                        <h3>${doctor.name}</h3>
+                        <p>${doctor.specialty}</p>
+                        <h4>Available Time Slots</h4>
+                        <div class="time-slots">
+                            ${generateTimeSlots()}
+                        </div>
+                        <button class="btn">Confirm Booking</button>
+                        <div class="booking-success">
+                            <i class="fas fa-check-circle"></i> Appointment booked successfully!
+                            We've sent a confirmation email.
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+                setTimeout(() => overlay.classList.add('active'), 10);
+            }
+
+            function generateTimeSlots() {
+                const times = ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
+                return times.map(time => `<div class="time-slot">${time}</div>`).join('');
+            }
         });
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
     </script>
 </body>
 
