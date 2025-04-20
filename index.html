@@ -157,7 +157,7 @@
             margin: 1rem 0;
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--dark);
+            color: var (--dark);
             display: none;
         }
 
@@ -2498,7 +2498,7 @@
                             plans. Our secure platform ensures your privacy while providing expert care from the comfort
                             of your home. AI matching system ensures you get paired with the perfect therapist for your
                             needs.</p>
-                        <button class="btn-consult">
+                        <button class="btn-consult" onclick="window.location.href='appointment-booking.html'">
                             Book Session <i class="fas fa-video"></i>
                         </button>
                     </div>
@@ -2748,35 +2748,7 @@
             });
 
             // Consultation button
-            document.querySelector('.btn-consult').addEventListener('click', function () {
-                Swal.fire({
-                    title: 'Book Consultation',
-                    html: `
-                    <div class="consultation-form">
-                        <select class="form-select" id="consultationType">
-                            <option value="">Select Consultation Type</option>
-                            <option value="video">Video Call</option>
-                            <option value="audio">Audio Call</option>
-                            <option value="chat">Chat Session</option>
-                        </select>
-                        <input type="date" class="form-input" id="consultationDate" min="${new Date().toISOString().split('T')[0]}">
-                        <select class="form-select" id="consultationTime">
-                            <option value="">Select Time Slot</option>
-                            <option value="09:00">09:00 AM</option>
-                            <option value="11:00">11:00 AM</option>
-                            <option value="14:00">02:00 PM</option>
-                            <option value="16:00">04:00 PM</option>
-                        </select>
-                    </div>
-                `,
-                    showCancelButton: true,
-                    confirmButtonText: 'Book Now',
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-frost'
-                    }
-                });
-            });
+            
 
             // View All buttons
             document.querySelectorAll('.btn-view-all').forEach(button => {
