@@ -582,7 +582,10 @@
         padding: 10px 15px;
         border-radius: 15px;
         max-width: 80%;
+        opacity: 1; /* Change from 0 to 1 */
         animation: messageSlide 0.3s ease-out;
+        position: relative; /* Add this */
+        display: block; /* Add this */
     }
 
     @keyframes messageSlide {
@@ -921,44 +924,40 @@
 
     // --- *** CORRECTED/VERIFIED FUNCTION *** ---
     function handleChatQuestion(question, answer) {
-        const messagesArea = document.querySelector('.chat-messages-area');
+        const messagesArea = document.getElementById('chat-messages');
         if (!messagesArea) {
-            console.error("Chat messages area not found!");
+            console.error("Chat messages container not found");
             return;
         }
-    
-        // Add user message
-        const userMsg = document.createElement('div');
-        userMsg.className = 'chat-message user';
-        userMsg.textContent = question;
-        messagesArea.appendChild(userMsg);
+
+        // Clear any existing typing indicators
+        const existingTyping = messagesArea.querySelector('.typing');
+        if (existingTyping) {
+            messagesArea.removeChild(existingTyping);
+        }
+
+        // Add user's question
+        const userMessage = document.createElement('div');
+        userMessage.className = 'chat-message user';
+        userMessage.textContent = question;
+        messagesArea.appendChild(userMessage);
         messagesArea.scrollTop = messagesArea.scrollHeight;
-    
-        // Disable all question buttons temporarily
-        const buttons = document.querySelectorAll('.chat-question-btn');
-        buttons.forEach(btn => btn.disabled = true);
-    
-        // Add "typing" indicator
+
+        // Add typing indicator
         const typingIndicator = document.createElement('div');
         typingIndicator.className = 'chat-message doctor typing';
         typingIndicator.textContent = 'Typing...';
         messagesArea.appendChild(typingIndicator);
         messagesArea.scrollTop = messagesArea.scrollHeight;
-    
-        // Simulate doctor's response after a delay
+
+        // Simulate delay and show response
         setTimeout(() => {
-            // Remove typing indicator
             messagesArea.removeChild(typingIndicator);
-            
-            // Add doctor's response
-            const doctorMsg = document.createElement('div');
-            doctorMsg.className = 'chat-message doctor';
-            doctorMsg.textContent = answer;
-            messagesArea.appendChild(doctorMsg);
+            const doctorMessage = document.createElement('div');
+            doctorMessage.className = 'chat-message doctor';
+            doctorMessage.textContent = answer;
+            messagesArea.appendChild(doctorMessage);
             messagesArea.scrollTop = messagesArea.scrollHeight;
-    
-            // Re-enable buttons
-            buttons.forEach(btn => btn.disabled = false);
         }, 1000);
     }
     // --- *** END OF CORRECTED FUNCTION *** ---
