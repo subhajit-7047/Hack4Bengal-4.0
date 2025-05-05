@@ -1005,7 +1005,7 @@
             function initMap() {
                 sampleDoctors.forEach(doctor => {
                     const mapDiv = document.getElementById(`map-${doctor.name.replace(/\s+/g, '-')}`);
-                    
+
                     const map = new google.maps.Map(mapDiv, {
                         center: { lat: -34.397, lng: 150.644 }, // Replace with actual coordinates
                         zoom: 14
@@ -1049,8 +1049,7 @@
             }
         });
     </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
     </script>
 </body>
 

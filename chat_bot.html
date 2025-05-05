@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,7 @@
             --primary: #4a89dc;
             --primary-dark: #3a6fc8;
             --secondary: #8e44ad;
-            --accent: #37bc9b; 
+            --accent: #37bc9b;
             --light: #f5f7fa;
             --dark: #2d3436;
             --gray: #636e72;
@@ -81,8 +82,13 @@
             flex-direction: column;
         }
 
-        .message-user { align-items: flex-end; }
-        .message-bot { align-items: flex-start; }
+        .message-user {
+            align-items: flex-end;
+        }
+
+        .message-bot {
+            align-items: flex-start;
+        }
 
         .message-content {
             max-width: 80%;
@@ -180,6 +186,14 @@
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .suggested-question:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .disease-card {
@@ -191,35 +205,55 @@
             border-left: 4px solid var(--accent);
         }
 
+        .suggested-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .typing-indicator {
+            color: #666;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
-            .chat-container { height: 80vh; }
-            .message-content { max-width: 90%; }
+            .chat-container {
+                height: 80vh;
+            }
+
+            .message-content {
+                max-width: 90%;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1><i class="fas fa-brain"></i> MindCare Assistant</h1>
             <p class="tagline">Your AI-powered mental health support companion</p>
         </header>
-        
+
         <div class="chat-container">
             <div class="chat-header">
                 <i class="fas fa-heartbeat"></i>
                 <span>Mental Health Support</span>
             </div>
-            
+
             <div class="chat-messages" id="chatMessages">
                 <div class="message message-bot">
                     <div class="message-content bot-message">
-                        Hello! I'm here to provide mental health information and support. 
+                        Hello! I'm here to provide mental health information and support.
                         You can ask about conditions or start a self-assessment.
                     </div>
                     <div class="message-time">Just now</div>
                 </div>
             </div>
-            
+
             <div class="chat-input">
                 <input type="text" id="userInput" placeholder="Ask about mental health..." autocomplete="off">
                 <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
@@ -228,36 +262,36 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const chatMessages = document.getElementById('chatMessages');
             const userInput = document.getElementById('userInput');
             const sendButton = document.getElementById('sendButton');
-            
+
             // Mental Health Database
             const diseaseDatabase = {
                 "depression": {
                     name: "Depression",
                     description: "A mood disorder characterized by persistent sadness and loss of interest.",
-                    symptoms: ["Persistent sadness", "Loss of interest", "Sleep changes", "Fatigue", 
-                             "Feelings of worthlessness", "Concentration issues"],
-                    treatments: ["Psychotherapy (CBT)", "Antidepressants", "Exercise", 
-                               "Mindfulness practices", "Social support"],
+                    symptoms: ["Persistent sadness", "Loss of interest", "Sleep changes", "Fatigue",
+                        "Feelings of worthlessness", "Concentration issues"],
+                    treatments: ["Psychotherapy (CBT)", "Antidepressants", "Exercise",
+                        "Mindfulness practices", "Social support"],
                     prevention: ["Regular self-care", "Maintaining connections", "Stress management"]
                 },
                 "anxiety": {
                     name: "Anxiety Disorder",
                     description: "Characterized by excessive fear or worry that affects daily functioning.",
                     symptoms: ["Excessive worry", "Restlessness", "Muscle tension", "Panic attacks",
-                             "Irritability", "Sleep disturbances"],
+                        "Irritability", "Sleep disturbances"],
                     treatments: ["CBT", "Anti-anxiety medications", "Relaxation techniques",
-                               "Lifestyle changes", "Support groups"],
+                        "Lifestyle changes", "Support groups"],
                     prevention: ["Stress reduction", "Mindfulness", "Regular exercise", "Healthy diet"]
                 },
                 "ocd": {
                     name: "OCD",
                     description: "Obsessive-Compulsive Disorder involves recurring thoughts and behaviors.",
                     symptoms: ["Intrusive thoughts", "Repetitive behaviors", "Fear of contamination",
-                             "Need for symmetry", "Checking compulsions"],
+                        "Need for symmetry", "Checking compulsions"],
                     treatments: ["ERP Therapy", "SSRIs", "Mindfulness", "Support groups"],
                     prevention: ["Early intervention", "Stress management", "Healthy routines"]
                 },
@@ -265,9 +299,9 @@
                     name: "PTSD",
                     description: "Post-Traumatic Stress Disorder develops after traumatic events.",
                     symptoms: ["Flashbacks", "Nightmares", "Hypervigilance", "Avoidance",
-                             "Negative thoughts", "Emotional numbness"],
-                    treatments: ["Trauma-focused therapy", "EMDR", "Medications", 
-                               "Support groups", "Mindfulness"],
+                        "Negative thoughts", "Emotional numbness"],
+                    treatments: ["Trauma-focused therapy", "EMDR", "Medications",
+                        "Support groups", "Mindfulness"],
                     prevention: ["Early intervention", "Social support", "Stress management"]
                 }
             };
@@ -331,25 +365,63 @@
                 }
             ];
 
+            function handleSuggestedQuestion(question, answer) {
+                // Add user question
+                const userDiv = document.createElement('div');
+                userDiv.className = 'message message-user';
+                userDiv.innerHTML = `
+                    <div class="message-content user-message">${question}</div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                `;
+                chatMessages.appendChild(userDiv);
+
+                // Show typing indicator
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message message-bot';
+                typingDiv.innerHTML = `
+                    <div class="message-content bot-message">
+                        <div class="typing-indicator">Typing...</div>
+                    </div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                `;
+                chatMessages.appendChild(typingDiv);
+                scrollToBottom();
+
+                // Show response after delay
+                setTimeout(() => {
+                    chatMessages.removeChild(typingDiv);
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'message message-bot';
+                    botDiv.innerHTML = `
+                        <div class="message-content bot-message">${answer}</div>
+                        <div class="message-time">${getCurrentTime()}</div>
+                    `;
+                    chatMessages.appendChild(botDiv);
+                    scrollToBottom();
+                    
+                    // Show new suggestions after response
+                    setTimeout(showSuggestedQuestions, 1000);
+                }, 1000);
+            }
+
             function showSuggestedQuestions() {
                 const container = document.createElement('div');
                 container.className = 'suggested-questions';
+                
                 suggestedQuestions.forEach(item => {
                     const q = document.createElement('div');
                     q.className = 'suggested-question';
                     q.textContent = item.question;
-                    q.addEventListener('click', () => {
-                        addUserMessage(item.question);
+                    q.onclick = () => {
                         if (item.answer) {
-                            addBotMessage(item.answer);
-                            setTimeout(showSuggestedQuestions, 500);
+                            handleSuggestedQuestion(item.question, item.answer);
                         } else {
                             startAssessment();
                         }
-                    });
+                    };
                     container.appendChild(q);
                 });
-                
+
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'message message-bot';
                 messageDiv.innerHTML = `
@@ -373,7 +445,7 @@
 
             function askAssessmentQuestion() {
                 const question = assessmentQuestions[currentQuestion];
-                const optionsHtml = question.options.map(opt => 
+                const optionsHtml = question.options.map(opt =>
                     `<div class="assessment-option" onclick="handleResponse('${opt}')">${opt}</div>`
                 ).join('');
 
@@ -392,12 +464,14 @@
 
             function handleResponse(response) {
                 // Simple scoring system
-                const scores = {"Not at all": 0, "Several days": 1, 
-                               "More than half the days": 2, "Nearly daily": 3};
+                const scores = {
+                    "Not at all": 0, "Several days": 1,
+                    "More than half the days": 2, "Nearly daily": 3
+                };
                 assessmentScore += scores[response] || 0;
-                
+
                 currentQuestion++;
-                if(currentQuestion < assessmentQuestions.length) {
+                if (currentQuestion < assessmentQuestions.length) {
                     askAssessmentQuestion();
                 } else {
                     showAssessmentResult();
@@ -407,9 +481,9 @@
             function showAssessmentResult() {
                 assessmentActive = false;
                 let result;
-                if(assessmentScore >= 8) {
+                if (assessmentScore >= 8) {
                     result = "Your responses suggest significant mental health concerns. Please consider reaching out to a professional.";
-                } else if(assessmentScore >= 4) {
+                } else if (assessmentScore >= 4) {
                     result = "You're showing some signs of mental health challenges. Consider speaking with a counselor.";
                 } else {
                     result = "Your responses suggest typical stress levels. Maintain self-care practices.";
@@ -444,7 +518,7 @@
             }
 
             function getCurrentTime() {
-                return new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             }
 
             function scrollToBottom() {
@@ -454,18 +528,18 @@
             // Message Handling
             async function sendMessage() {
                 const message = userInput.value.trim();
-                if(!message) return;
+                if (!message) return;
 
                 addUserMessage(message);
                 userInput.value = '';
 
                 // Handle Assessment
-                if(message.toLowerCase() === 'start mental health assessment') {
+                if (message.toLowerCase() === 'start mental health assessment') {
                     startAssessment();
                     return;
                 }
 
-                if(assessmentActive) {
+                if (assessmentActive) {
                     handleResponse(message);
                     return;
                 }
@@ -478,10 +552,10 @@
 
             async function processQuery(input) {
                 input = input.toLowerCase();
-                
+
                 // Check database
-                for(const [key, data] of Object.entries(diseaseDatabase)) {
-                    if(input.includes(key)) {
+                for (const [key, data] of Object.entries(diseaseDatabase)) {
+                    if (input.includes(key)) {
                         return createInfoCard(data);
                     }
                 }
@@ -493,8 +567,8 @@
                     "emergency": "If you're in crisis, please contact emergency services immediately."
                 };
 
-                for(const [term, response] of Object.entries(qna)) {
-                    if(input.includes(term)) return response;
+                for (const [term, response] of Object.entries(qna)) {
+                    if (input.includes(term)) return response;
                 }
 
                 return "I specialize in mental health information. Could you clarify your question?";
@@ -516,7 +590,7 @@
             // Event Listeners
             sendButton.addEventListener('click', sendMessage);
             userInput.addEventListener('keypress', (e) => {
-                if(e.key === 'Enter') sendMessage();
+                if (e.key === 'Enter') sendMessage();
             });
 
             // Initial Suggestions
@@ -524,4 +598,5 @@
         });
     </script>
 </body>
+
 </html>
