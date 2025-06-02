@@ -276,16 +276,73 @@
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
             e.preventDefault();
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const loginBtn = document.querySelector('.btn-login');
+            
+            // Basic validation
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
 
-            // Here you would typically make an API call to verify credentials
-            console.log('Login attempt:', { email, password });
+            try {
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Logging in...';
 
-            // For demo purposes, redirect to dashboard
-            window.location.href = 'index.html';
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Get existing user data or create new
+                const existingData = localStorage.getItem('userData');
+                const userData = existingData ? JSON.parse(existingData) : {
+                    email,
+                    firstLogin: true,
+                    surveyCompleted: false
+                };
+
+                // Update login time
+                userData.lastLogin = new Date().toISOString();
+                localStorage.setItem('userData', JSON.stringify(userData));
+
+                // For existing users, check if survey needs to be retaken
+                if (!userData.firstLogin) {
+                    const lastSurveyDate = localStorage.getItem('lastSurveyDate');
+                    const oneMonthAgo = new Date();
+                    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+                    if (lastSurveyDate && new Date(lastSurveyDate) < oneMonthAgo) {
+                        // Time for a new survey
+                        localStorage.removeItem('surveyData');
+                        localStorage.removeItem('surveyCompleted');
+                        window.location.href = 'survey.html';
+                        return;
+                    }
+                }
+
+                // Redirect based on survey completion
+                window.location.href = userData.surveyCompleted ? 'index.html' : 'survey.html';
+
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Log In';
+            }
+        });
+
+        // Add input validation listeners
+        document.querySelectorAll('.input-field input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                if (this.value) {
+                    this.style.borderColor = 'rgba(108, 92, 231, 0.2)';
+                }
+            });
         });
     </script>
 </body>

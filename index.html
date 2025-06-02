@@ -772,7 +772,8 @@
         }
 
         .blog-card {
-            background: var (--light);;
+            background: var (--light);
+            ;
             border-radius: 16px;
             overflow: hidden;
             transition: all 0.4s ease;
@@ -1805,7 +1806,8 @@
         .dot.active {
             width: 30px;
             border-radius: 5px;
-            background: var(--gradient-primary);;
+            background: var(--gradient-primary);
+            ;
         }
 
         @keyframes slideIn {
@@ -2748,7 +2750,7 @@
             });
 
             // Consultation button
-            
+
 
             // View All buttons
             document.querySelectorAll('.btn-view-all').forEach(button => {
@@ -3000,40 +3002,40 @@
 
             // Smooth scrolling for top navigation links
             document.querySelectorAll('.top-nav-links a').forEach(link => {
-    link.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        
-        // Only handle anchor links on the same page
-        if (href.startsWith('#')) {
-            e.preventDefault();
-            const targetSection = document.querySelector(href);
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-        // Allow default behavior for external page links
-    });
-});
+                link.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
 
-           // This code should remain (with slight modification)
-document.querySelectorAll('.top-nav-links a').forEach(link => {
-    // Check if current page matches the link
-    if (window.location.pathname.includes(link.getAttribute('href'))) {
-        link.classList.add('active');
-    }
-    
-    link.addEventListener('click', function(e) {
-        // Remove active class from all links
-        document.querySelectorAll('.top-nav-links a').forEach(a => {
-            a.classList.remove('active');
-        });
-        // Add active class to clicked link
-        this.classList.add('active');
-    });
-});
+                    // Only handle anchor links on the same page
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetSection = document.querySelector(href);
+                        if (targetSection) {
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                    // Allow default behavior for external page links
+                });
+            });
+
+            // This code should remain (with slight modification)
+            document.querySelectorAll('.top-nav-links a').forEach(link => {
+                // Check if current page matches the link
+                if (window.location.pathname.includes(link.getAttribute('href'))) {
+                    link.classList.add('active');
+                }
+
+                link.addEventListener('click', function (e) {
+                    // Remove active class from all links
+                    document.querySelectorAll('.top-nav-links a').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                });
+            });
 
             // Add this after the scroll spy code
             document.querySelectorAll('.top-nav-links a').forEach(link => {
@@ -3041,8 +3043,8 @@ document.querySelectorAll('.top-nav-links a').forEach(link => {
                 if (window.location.pathname.includes(link.getAttribute('href'))) {
                     link.classList.add('active');
                 }
-                
-                link.addEventListener('click', function(e) {
+
+                link.addEventListener('click', function (e) {
                     // Remove active class from all links
                     document.querySelectorAll('.top-nav-links a').forEach(a => {
                         a.classList.remove('active');
@@ -3223,50 +3225,50 @@ document.querySelectorAll('.top-nav-links a').forEach(link => {
         });
 
         // Fix for navigation buttons
-       document.querySelectorAll('.top-nav-links a').forEach(link => {
-    link.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        
-        // Only handle anchor links on the same page
-        if (href.startsWith('#')) {
-            e.preventDefault();
-            const targetSection = document.querySelector(href);
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-            
-            // Update active state
-            document.querySelectorAll('.top-nav-links a').forEach(a => a.classList.remove('active'));
-            this.classList.add('active');
-        }
-        // Allow default behavior for external links
-    });
-});
-document.querySelectorAll('.top-nav-links a').forEach(link => {
-    link.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        
-        // Only handle anchor links on the same page
-        if (href.startsWith('#')) {
-            e.preventDefault();
-            const targetSection = document.querySelector(href);
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-            
-            // Update active state
-            document.querySelectorAll('.top-nav-links a').forEach(a => a.classList.remove('active'));
-            this.classList.add('active');
-        }
-        // Allow default behavior for external links
-    });
-});
+        document.querySelectorAll('.top-nav-links a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+
+                // Only handle anchor links on the same page
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetSection = document.querySelector(href);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+
+                    // Update active state
+                    document.querySelectorAll('.top-nav-links a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+                // Allow default behavior for external links
+            });
+        });
+        document.querySelectorAll('.top-nav-links a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+
+                // Only handle anchor links on the same page
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetSection = document.querySelector(href);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+
+                    // Update active state
+                    document.querySelectorAll('.top-nav-links a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                }
+                // Allow default behavior for external links
+            });
+        });
     </script>
 </body>
 
