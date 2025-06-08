@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,9 +144,20 @@
             transition: all 0.3s ease;
         }
 
-        .weak { background: var(--error); width: 33.33%; }
-        .medium { background: var(--warning); width: 66.66%; }
-        .strong { background: var(--success); width: 100%; }
+        .weak {
+            background: var(--error);
+            width: 33.33%;
+        }
+
+        .medium {
+            background: var(--warning);
+            width: 66.66%;
+        }
+
+        .strong {
+            background: var(--success);
+            width: 100%;
+        }
 
         .terms {
             margin: 1.5rem 0;
@@ -210,8 +222,13 @@
             background: rgba(99, 110, 114, 0.2);
         }
 
-        .divider::before { left: 0; }
-        .divider::after { right: 0; }
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
 
         .divider span {
             background: rgba(255, 255, 255, 0.95);
@@ -295,6 +312,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="login-container signup-container">
         <div class="login-header">
@@ -302,21 +320,30 @@
             <h2>Create Account</h2>
             <p>Join us on your journey to better mental health</p>
         </div>
+        <form method="POST" action="{% url 'signup' %}">
+            {% csrf_token %}
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
 
-        <form id="signupForm">
             <div class="name-group">
                 <div class="input-group">
                     <label for="firstName">First Name</label>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="firstName" placeholder="First name" required>
+                        <input type="text" name="first_name" id="firstName" placeholder="First name" required>
                     </div>
                 </div>
-                <div class="input-group">
-                    <label for="lastName">Last Name</label>
+                <div class="input-group"> <label for="lastName">Last Name</label>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="lastName" placeholder="Last name" required>
+                        <input type="text" name="last_name" id="lastName" placeholder="Last name" required>
                     </div>
                 </div>
             </div>
@@ -325,15 +352,14 @@
                 <label for="email">Email Address</label>
                 <div class="input-field">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <input type="email" name="email" id="email" placeholder="Enter your email" required>
                 </div>
             </div>
 
-            <div class="input-group">
-                <label for="password">Password</label>
+            <div class="input-group"> <label for="password">Password</label>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="password" placeholder="Create a password" required>
+                    <input type="password" name="password" id="password" placeholder="Create a password" required>
                 </div>
             </div>
 
@@ -341,7 +367,8 @@
                 <label for="confirmPassword">Confirm Password</label>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                    <input type="password" name="confirm_password" id="confirmPassword"
+                        placeholder="Confirm your password" required>
                 </div>
             </div>
 
@@ -369,33 +396,24 @@
                     <i class="fab fa-apple"></i>
                 </button>
             </div>
-
             <div class="signup-link">
-                Already have an account? <a href="login.html">Log In</a>
+                Already have an account? <a href="{% url 'login' %}">Log In</a>
             </div>
         </form>
     </div>
 
     <script>
-        document.getElementById('signupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
             if (password !== confirmPassword) {
+                e.preventDefault();
                 alert("Passwords don't match!");
-                return;
+                return false;
             }
-
-            // Here you would typically make an API call to create account
-            console.log('Signup attempt:', { firstName, lastName, email, password });
-            
-            // For demo purposes, redirect to login
-            window.location.href = 'login.html';
         });
     </script>
 </body>
+
 </html>
