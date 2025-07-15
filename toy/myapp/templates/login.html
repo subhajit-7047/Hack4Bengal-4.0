@@ -228,23 +228,14 @@
             <div class="logo">MC</div>
             <h2>Welcome Back!</h2>
             <p>Please login to your account</p>
-        </div>        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            
+        </div>
+
+        <form id="loginForm">
             <div class="input-group">
                 <label for="email">Email Address</label>
                 <div class="input-field">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                    <input type="email" id="email" placeholder="Enter your email" required>
                 </div>
             </div>
 
@@ -252,7 +243,7 @@
                 <label for="password">Password</label>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                    <input type="password" id="password" placeholder="Enter your password" required>
                 </div>
             </div>
 
