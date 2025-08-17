@@ -234,7 +234,7 @@ if st.session_state['predict_clicked']:
             c.drawString(50, y, f"🫪 Risk Level: {risk}")
             c.setFillColor(colors.black)
 
-            c.showPage()
+            c.showPage() 
             c.save()
             buffer.seek(0)
 
