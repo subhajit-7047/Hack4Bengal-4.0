@@ -26,3 +26,10 @@ if __name__ == '__main__':
     from django.core.wsgi import get_wsgi_application
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "toy.settings")  # use your project settings
     app = get_wsgi_application()
+
+    # vercel_wsgi.py
+import os
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "toy.settings")  # <-- replace with your Django project folder
+app = get_wsgi_application()
